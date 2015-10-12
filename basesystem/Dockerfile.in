@@ -1,7 +1,7 @@
-# Define the base image
+
 FROM ubuntu:latest
 MAINTAINER me
-# Add some more software
+
 #include "../buildsteps/apt-get.start.txt"
 #include "../buildsteps/apt-get.install.devtools.txt"
 #include "../buildsteps/apt-get.stop.txt"
