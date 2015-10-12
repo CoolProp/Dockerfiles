@@ -1,0 +1,6 @@
+FROM ubuntu:latest
+MAINTAINER me
+
+#include "../buildsteps/apt-get.start.txt"
+#include "../buildsteps/apt-get.install.devtools.txt"
+#include "../buildsteps/apt-get.start.txt"

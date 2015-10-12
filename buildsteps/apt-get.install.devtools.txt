@@ -1,0 +1,3 @@
+build-essential gfortran gcc cmake git \
+bash rsync curl wget \
+python-dev python-pip \
