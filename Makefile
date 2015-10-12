@@ -1,6 +1,7 @@
 
 # This is a Makefile to make Dockerfiles
 
+CPP:=cpp -w -P -o
 ###########################################################
 #  Just a test
 ###########################################################
@@ -8,7 +9,7 @@
 basesystem : basesystem/Dockerfile
 
 basesystem/Dockerfile: buildsteps/*.txt
-	cpp -o basesystem/Dockerfile basesystem/Dockerfile.in
+	$(CPP) basesystem/Dockerfile basesystem/Dockerfile.in
 
 
 # Dockerfile: Dockerfile.in *.docker
