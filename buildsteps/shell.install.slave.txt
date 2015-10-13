@@ -1,0 +1,4 @@
+COMMENT(#,Install the buildbot slave software and add the appropriate user)
+RUN pip install buildbot-slave && \
+groupadd -r buildbot && \
+useradd -r -d /home/buildbot -m -s /bin/bash -g buildbot buildbot

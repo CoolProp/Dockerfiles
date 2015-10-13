@@ -1,0 +1,7 @@
+COMMENT(#,Install bash and set it as default shell)
+#include "apt-get.start.txt"
+bash
+#include "apt-get.stop.txt"
+
+COMMENT(#,Make sure bash is the standard shell)
+RUN rm /bin/sh && ln -sf /bin/bash /bin/sh

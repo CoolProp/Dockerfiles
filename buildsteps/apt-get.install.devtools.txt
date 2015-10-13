@@ -1,3 +1,5 @@
+COMMENT(#,Install the development packages and compilers)
+#include "apt-get.start.txt"
 build-essential gfortran gcc cmake git \
 bash rsync curl wget nano \
-python-dev python-pip \
+python-dev python-pip && \

@@ -1,6 +1,4 @@
 COMMENT(#,Install the conda development packages)
 #include "cnd.start.txt"
-cython pip requests wheel \
-jinja2 pyyaml pycrypto \
-numpy scipy matplotlib pandas 
+conda-build 
 #include "cnd.stop.txt"

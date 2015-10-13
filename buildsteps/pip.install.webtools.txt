@@ -1,0 +1,2 @@
+COMMENT(#,Install sphinx itself)
+pip install sphinx cloud-sptheme sphinxcontrib-bibtex sphinxcontrib-doxylink sphinxcontrib-napoleon

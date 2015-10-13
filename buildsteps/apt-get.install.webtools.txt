@@ -1,0 +1,5 @@
+COMMENT(#,Install the packages to build the website with sphinx)
+#include "apt-get.start.txt"
+libxml2-dev libxslt1-dev libxslt1.1 doxygen libtool \
+libpng-dev tk libfreetype6-dev 
+#include "apt-get.stop.txt"

@@ -1,2 +1,3 @@
+COMMENT(#,Make sure the follwoing commands are run as root user)
 USER root
 WORKDIR /root

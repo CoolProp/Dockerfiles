@@ -1,2 +1,6 @@
+COMMENT(#,Install the numerical libraries needed to build numpy and friends)
+#include "apt-get.start.txt"
 python-dev \
 libhdf5-serial-dev libnetcdf-dev liblapack-dev libatlas-dev libblas-dev \
+libatlas3-base libblas3 liblapack3 
+#include "apt-get.stop.txt"
