@@ -1,4 +1,7 @@
 
+#define COMMENT(name) #int fun_##name
+COMMENT(ff)
+
 #if 0
 Define a base image and provide a tag for it, default is latest
 #endif

@@ -6,7 +6,10 @@ CPP:=cpp -w -P
 DIRS := basesystem
 
 define make-goal
-$1/Dockerfile: buildsteps/*.txt
+.PHONY : $1
+$1 : $1/Dockerfile
+
+$1/Dockerfile : buildsteps/*.txt
 	$(CPP) -o $$@ $$@.in
 endef
 
