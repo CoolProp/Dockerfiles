@@ -1,0 +1,3 @@
+cython pip requests wheel \
+jinja2 pyyaml pycrypto \
+numpy scipy matplotlib pandas \

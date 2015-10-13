@@ -1,0 +1,2 @@
+python-dev \
+libhdf5-serial-dev libnetcdf-dev liblapack-dev libatlas-dev libblas-dev \

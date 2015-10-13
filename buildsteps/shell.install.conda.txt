@@ -1,0 +1,4 @@
+RUN curl -o miniconda.sh http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh && \
+    chmod +x miniconda.sh && ./miniconda.sh -b && rm miniconda.sh && \
+    echo "export PATH=${HOME}/miniconda3/bin:${HOME}/miniconda/bin:$PATH" >> ${HOME}/.bash_profile
+env PATH ${HOME}/miniconda3/bin:${HOME}/miniconda/bin:$PATH

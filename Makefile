@@ -8,8 +8,8 @@ CPP:=cpp -w -P -o
 .PHONY     : basesystem
 basesystem : basesystem/Dockerfile
 
-basesystem/Dockerfile: buildsteps/*.txt
-	$(CPP) basesystem/Dockerfile basesystem/Dockerfile.in
+*/Dockerfile: buildsteps/*.txt
+	$(CPP) $@ $@.in
 
 
 # Dockerfile: Dockerfile.in *.docker
