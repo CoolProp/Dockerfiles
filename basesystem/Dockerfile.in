@@ -3,7 +3,8 @@
 
 COMMENT(#,Define a base image and provide a tag for it)
 FROM ubuntu:latest
-MAINTAINER me
+
+#include "../buildsteps/docker.maintainer.txt"
 
 #include "../buildsteps/apt-get.start.txt"
 #include "../buildsteps/apt-get.install.devtools.txt"
