@@ -3,12 +3,11 @@
 
 CPP:=cpp -w -P
 
-
 DIRS := basesystem
 
 define make-goal
 $1/Dockerfile: buildsteps/*.txt
-    $(CPP) -o $$@ $$@.in
+	$(CPP) -o $$@ $$@.in
 endef
 
 $(foreach tdir,$(DIRS),$(eval $(call make-goal,$(tdir))))
