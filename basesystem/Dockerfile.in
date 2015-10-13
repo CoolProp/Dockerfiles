@@ -1,8 +1,7 @@
 
-#define PUTTEXT(hash,input)hash input
-#define COMMENT(input) PUTTEXT(#,input)
+#define COMMENT(hash,input)hash input
 
-COMMENT(Define a base image and provide a tag for it)
+COMMENT(#,Define a base image and provide a tag for it)
 FROM ubuntu:latest
 MAINTAINER me
 
