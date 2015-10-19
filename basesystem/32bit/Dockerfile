@@ -3,9 +3,6 @@
 FROM coolprop/debian32
  # File Author / Maintainer
 MAINTAINER Jorrit Wronski (jowr@ipu.dk)
- # Make sure the follwoing commands are run as root user
-USER root
-WORKDIR /root
 ENV DEBIAN_FRONTEND noninteractive
  # Install the development packages and compilers
 RUN apt-get update -qq && apt-get install -y \
