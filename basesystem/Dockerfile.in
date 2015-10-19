@@ -1,6 +1,6 @@
 #define COMMENT(hash,input)hash input
 
-COMMENT(#,Define a base image for all CoolProp images)
+COMMENT(#,Define a base image for all 64bit CoolProp docker images)
 FROM coolprop/debian
 
 
