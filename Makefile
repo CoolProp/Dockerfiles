@@ -30,12 +30,18 @@ endef
 $(foreach tdir,$(DIRS),$(eval $(call make-goal,$(tdir))))
 
 .PHONY : debian
-debian : debian/Dockerfile.in externals/debian32/build-image.sh
+debian : externals/debian32/build-image.sh
 	mkdir -p debian/64bit debian/32bit
-	$(CPP) -o debian/64bit/Dockerfile debian/Dockerfile.in
-	cd debian/64bit ; docker build -t coolprop/debian -f Dockerfile . ; cd ..
-	cd debian/32bit ; sudo ../../externals/debian32/build-image.sh stable ; cd ..
+	cp externals/debian32/build-image.sh debian/
+	cp debian/build-image.sh debian/32bit/build-image.sh
+	sed 's/32bit/64bit/g' <debian/build-image.sh     > debian/build-image.sh.tmp
+	sed 's/i386/amd64/g'  <debian/build-image.sh.tmp > debian/64bit/build-image.sh
+	rm debian/build-image.sh.tmp
+	chmod +x debian/32bit/build-image.sh debian/64bit/build-image.sh
+	cd debian/32bit ; sudo ./build-image.sh stable ; cd ..
 	docker tag -f 32bit/debian:stable coolprop/debian32
+	cd debian/64bit ; sudo ./build-image.sh stable ; cd ..
+	docker tag -f 64bit/debian:stable coolprop/debian
 
 .PHONY : push
 push : debian
