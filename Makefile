@@ -46,7 +46,7 @@ debian : externals/debian32/build-image.sh
 	docker tag -f 64bit/debian:stable coolprop/debian
 
 .PHONY : push
-push : debian
+push : #debian
 	docker login
 	docker push coolprop/debian
 	docker push coolprop/debian32

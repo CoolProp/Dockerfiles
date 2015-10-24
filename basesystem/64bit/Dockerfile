@@ -3,13 +3,13 @@
 FROM coolprop/debian
  # File Author / Maintainer
 MAINTAINER Jorrit Wronski (jowr@ipu.dk)
-ENV DEBIAN_FRONTEND noninteractive
- # Install the development packages and compilers
-RUN /usr/bin/apt-get update -qq && apt-get install -y \
-build-essential gfortran gcc cmake git bash rsync curl wget nano python-dev python-pip && \
-apt-get autoclean && apt-get clean && apt-get autoremove
  # Make sure bash is the standard shell
 RUN rm /bin/sh && ln -sf /bin/bash /bin/sh
+ENV DEBIAN_FRONTEND noninteractive
+ # Install the development packages and compilers
+RUN apt-get update -qq && apt-get install -y \
+build-essential gfortran gcc cmake git bash rsync curl wget nano python-dev python-pip && \
+apt-get autoclean && apt-get clean && apt-get autoremove
  # Add some standard host keys
 RUN mkdir ${HOME}/.ssh && ssh-keyscan github.com >> ${HOME}/.ssh/known_hosts && ssh-keyscan bitbucket.org >> ${HOME}/.ssh/known_hosts && ssh-keyscan coolprop.org >> ${HOME}/.ssh/known_hosts && ssh-keyscan coolprop.dreamhosters.com >> ${HOME}/.ssh/known_hosts && cat ${HOME}/.ssh/known_hosts
  # Add the entrypoint

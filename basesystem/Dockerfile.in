@@ -7,6 +7,9 @@ FROM coolprop/debian
 #include "../buildsteps/docker.maintainer.txt"
 
 
+COMMENT(#,Make sure bash is the standard shell)
+RUN rm /bin/sh && ln -sf /bin/bash /bin/sh
+
 ENV DEBIAN_FRONTEND noninteractive
 
 COMMENT(#,Install the development packages and compilers)
@@ -16,10 +19,6 @@ bash rsync curl wget nano \
 python-dev python-pip && \\
 
 #include "../buildsteps/apt-get.stop.txt"
-
-
-COMMENT(#,Make sure bash is the standard shell)
-RUN rm /bin/sh && ln -sf /bin/bash /bin/sh
 
 
 COMMENT(#,Add some standard host keys)

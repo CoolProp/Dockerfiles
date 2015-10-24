@@ -1,2 +1,2 @@
-RUN /usr/bin/apt-get update -qq \
+RUN apt-get update -qq \
 && apt-get install -y \
