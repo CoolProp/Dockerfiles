@@ -1,0 +1,18 @@
+#define COMMENT(hash,input)hash input
+
+COMMENT(#,Define a base image for all CoolProp buildslave images)
+FROM coolprop/basesystem
+
+
+#include "../buildsteps/docker.maintainer.txt"
+
+
+COMMENT(#,Install the buildbot slave software and add the appropriate user)
+RUN groupadd -r buildbot && useradd -r -d /home/buildbot -m -s /bin/bash -g buildbot buildbot
+USER buildbot
+WORKDIR /home/buildbot
+RUN pip install buildbot-slave --user
+
+COMMENT(#,Add the entrypoint that creates a repository on first launch)
+COPY ./entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
