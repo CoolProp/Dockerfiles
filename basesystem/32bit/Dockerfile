@@ -5,8 +5,8 @@ FROM coolprop/debian32
 MAINTAINER Jorrit Wronski (jowr@ipu.dk)
  # Make sure bash is the standard shell
 RUN rm /bin/sh && ln -sf /bin/bash /bin/sh
-ENV DEBIAN_FRONTEND noninteractive
  # Install the development packages and compilers
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -qq && apt-get install -y \
 build-essential gfortran gcc cmake git bash rsync curl wget nano python-dev python-pip && \
 apt-get autoclean && apt-get clean && apt-get autoremove

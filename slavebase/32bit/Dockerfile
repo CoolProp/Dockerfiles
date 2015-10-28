@@ -5,6 +5,7 @@ FROM coolprop/basesystem32
 MAINTAINER Jorrit Wronski (jowr@ipu.dk)
  # Install the buildbot slave software and add the appropriate user
 RUN groupadd -r buildbot && useradd -r -d /home/buildbot -m -s /bin/bash -g buildbot buildbot
+ # Make sure the following commands are run as the buildbot user
 USER buildbot
 WORKDIR /home/buildbot
 RUN pip install buildbot-slave --user

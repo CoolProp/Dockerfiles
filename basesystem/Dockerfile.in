@@ -10,8 +10,6 @@ FROM coolprop/debian
 COMMENT(#,Make sure bash is the standard shell)
 RUN rm /bin/sh && ln -sf /bin/bash /bin/sh
 
-ENV DEBIAN_FRONTEND noninteractive
-
 COMMENT(#,Install the development packages and compilers)
 #include "../buildsteps/apt-get.start.txt"
 build-essential gfortran gcc cmake git \
