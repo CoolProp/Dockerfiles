@@ -6,14 +6,14 @@ MAINTAINER Jorrit Wronski (jowr@ipu.dk)
  # Make sure the follwoing commands are run as root user
 USER root
 WORKDIR /root
- # Install system tools for compilation of Python extensions numpy and scipy and pandas
+ # Install system tools for compilation of Python extensions numpy-scipy-pandas
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -qq && apt-get install -y \
 build-essential gcc python-dev libhdf5-serial-dev libnetcdf-dev liblapack-dev libatlas-dev libblas-dev && \
 apt-get autoclean && apt-get clean && apt-get autoremove
- # Make sure the follwoing commands are run as root user
-USER root
-WORKDIR /root
+ # Make sure the following commands are run as the buildbot user
+USER buildbot
+WORKDIR /home/buildbot
  # Install miniconda Python distribution
 RUN curl -o miniconda.sh "http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh" && chmod +x miniconda.sh && ./miniconda.sh -b && rm miniconda.sh && echo "export PATH=/home/buildbot/miniconda3/bin:/home/buildbot/miniconda/bin:$PATH" >> /home/buildbot/.bash_profile
 ENV PATH /home/buildbot/miniconda3/bin:/home/buildbot/miniconda/bin:$PATH
