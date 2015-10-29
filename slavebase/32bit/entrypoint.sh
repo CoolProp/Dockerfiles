@@ -9,7 +9,7 @@ function shutdown()
 function startup()
 {
   if [ ! -d "${SLAVEDIR}" ]; then
-    /usr/local/bin/buildslave create-slave ${SLAVEDIR} ${MASTERHOST} ${SLAVENAME} ${SLAVEPASSWORD}
+    $CTRLAPP create-slave ${SLAVEDIR} ${MASTERHOST} ${SLAVENAME} ${SLAVEPASSWORD}
     echo "${BOTADMIN} <${BOTEMAIL}>" > ${SLAVEDIR}/info/admin
     echo "${BOTHOST}" > ${SLAVEDIR}/info/host
   fi
