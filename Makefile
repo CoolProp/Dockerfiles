@@ -21,7 +21,8 @@ $1/32bit/Dockerfile : $1/64bit/Dockerfile
 	if [ -f "$1/64bit/entrypoint.sh" ]; then cp "$1/64bit/entrypoint.sh" "$1/32bit/"; fi
 	sed 's/coolprop\/[a-zA-Z0-9]*/&32/g' <"$1/64bit/Dockerfile" > "$1/Dockerfile.1.tmp"
 	sed 's/Miniconda-latest-Linux-x86_64/Miniconda-latest-Linux-x86/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"
-	sed 's/64bit/32bit/g' "$1/Dockerfile.2.tmp" > "$1/32bit/Dockerfile"
+	sed 's/64bit/32bit/g' "$1/Dockerfile.2.tmp" > "$1/Dockerfile.1.tmp"
+	sed 's/ENTRYPOINT\ \[\"/ENTRYPOINT\ \[\"linux32\ /g' "$1/Dockerfile.1.tmp" > "$1/32bit/Dockerfile"
 	rm -f "$1/Dockerfile.1.tmp" "$1/Dockerfile.2.tmp"
 
 .PHONY : $1-build

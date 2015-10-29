@@ -1,4 +1,0 @@
-COMMENT(#,Install the conda development packages)
-#include "cnd.start.txt"
-conda-build 
-#include "cnd.stop.txt"

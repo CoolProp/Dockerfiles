@@ -1,2 +1,2 @@
 COMMENT(#,File Author / Maintainer)
-MAINTAINER Jorrit Wronski (jowr@ipu.dk)
+MAINTAINER Jorrit Wronski <jowr@ipu.dk>
