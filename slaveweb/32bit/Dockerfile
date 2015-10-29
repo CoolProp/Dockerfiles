@@ -15,9 +15,9 @@ apt-get autoclean && apt-get clean && apt-get autoremove
 USER buildbot
 WORKDIR /home/buildbot
  # Install miniconda Python distribution
-RUN curl -o miniconda.sh "http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86.sh" && chmod +x miniconda.sh && ./miniconda.sh -b && rm miniconda.sh && echo "export PATH=/home/buildbot/miniconda3/bin:/home/buildbot/miniconda/bin:$PATH" >> /home/buildbot/.bash_profile
+RUN curl -o miniconda.sh "http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86.sh" && chmod +x miniconda.sh && linux32 ./miniconda.sh -b && rm miniconda.sh && echo "export PATH=/home/buildbot/miniconda3/bin:/home/buildbot/miniconda/bin:$PATH" >> /home/buildbot/.bash_profile
 ENV PATH /home/buildbot/miniconda3/bin:/home/buildbot/miniconda/bin:$PATH
- # Add the additional packages to the conda environment
-RUN conda install conda-build && conda create -n CoolPropWeb python=2.7 setuptools requests cython numpy scipy matplotlib pandas ipython wxpython && conda clean -yilts
+ # Add the additional packages to the linux32 conda environment
+RUN linux32 conda install conda-build && linux32 conda create -n CoolPropWeb python=2.7 setuptools requests cython numpy scipy matplotlib pandas ipython wxpython && linux32 conda clean -yilts
  # Add some pip packages that only exist there
 RUN source activate CoolPropWeb && pip install sphinx cloud-sptheme sphinxcontrib-bibtex sphinxcontrib-doxylink sphinxcontrib-napoleon && source deactivate
