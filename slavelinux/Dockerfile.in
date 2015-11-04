@@ -1,7 +1,7 @@
 #define COMMENT(hash,input)hash input
 
 COMMENT(#,Define an image to build most of the 64bit CoolProp wrappers on the Linux platform)
-FROM coolprop/slavebase
+FROM coolprop/slavepython
 
 
 #include "../buildsteps/docker.maintainer.txt"
