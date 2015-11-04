@@ -1,0 +1,28 @@
+#define COMMENT(hash,input)hash input
+
+COMMENT(#,Define an image to build most of the 64bit CoolProp wrappers on the Linux platform)
+FROM coolprop/slavebase
+
+
+#include "../buildsteps/docker.maintainer.txt"
+
+
+
+#include "../buildsteps/docker.user.root.txt"
+
+
+COMMENT(#,Install system tools for compilation of Python extensions numpy-scipy-pandas-matplotlib and the source code docs.)
+#include "../buildsteps/apt-get.start.txt"
+build-essential git gcc gfortran cmake python-dev p7zip \
+cython python-matplotlib python-pandas \
+swig octave liboctave-dev \
+swig mono-mcs mono-runtime \
+emscripten r-base-dev scilab julia && \\
+
+#include "../buildsteps/apt-get.stop.txt"
+
+
+#include "../buildsteps/docker.user.bot.txt"
+
+
+COMMENT(#,Some commercial wrappers are missing - Mathematica - MATLAB)

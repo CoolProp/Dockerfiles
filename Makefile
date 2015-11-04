@@ -3,13 +3,13 @@
 
 CPP:=cpp -w -P
 
-DIRS := basesystem slavebase slavepython slaveweb
+DIRS := basesystem slavebase slavepython slaveweb slavelinux
 
 define make-goal
 .PHONY : $1
 $1 : $1/64bit/Dockerfile $1/32bit/Dockerfile
 
-$1/64bit/Dockerfile : $1/Dockerfile.in buildsteps/*.txt
+$1/64bit/Dockerfile : $1/Dockerfile.in buildsteps/*.txt Makefile
 	mkdir -p "$1/64bit"
 	if [ -f "$1/entrypoint.sh" ]; then cp "$1/entrypoint.sh" "$1/64bit/"; fi
 	$(CPP) -o $$@.tmp $$<
@@ -24,7 +24,8 @@ $1/32bit/Dockerfile : $1/64bit/Dockerfile
 	sed 's/64bit/32bit/g' "$1/Dockerfile.2.tmp" > "$1/Dockerfile.1.tmp"
 	sed 's/ENTRYPOINT\ \[\"/ENTRYPOINT\ \[\"linux32\ /g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"
 	sed 's/\ .\/miniconda.sh/\ linux32\ .\/miniconda.sh/g' "$1/Dockerfile.2.tmp" > "$1/Dockerfile.1.tmp"
-	sed 's/\ conda\ /\ linux32\ conda\ /g' "$1/Dockerfile.1.tmp" > "$1/32bit/Dockerfile"
+	sed 's/\ conda\ /\ linux32\ conda\ /g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"
+	sed 's/\ wxpython\ /\ /g' "$1/Dockerfile.2.tmp" > "$1/32bit/Dockerfile"
 	rm -f "$1/Dockerfile.1.tmp" "$1/Dockerfile.2.tmp"
 
 .PHONY : $1-build
