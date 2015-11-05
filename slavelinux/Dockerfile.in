@@ -7,7 +7,6 @@ FROM coolprop/slavepython
 #include "../buildsteps/docker.maintainer.txt"
 
 
-
 #include "../buildsteps/docker.user.root.txt"
 
 
@@ -17,12 +16,18 @@ build-essential git gcc gfortran cmake python-dev p7zip \
 cython python-matplotlib python-pandas \
 swig octave liboctave-dev \
 swig mono-mcs mono-runtime \
-emscripten r-base-dev scilab julia && \\
+r-base-dev scilab julia && \\
 
 #include "../buildsteps/apt-get.stop.txt"
 
 
 #include "../buildsteps/docker.user.bot.txt"
 
+
+COMMENT(#,Install emscripten distribution including LLVM)
+RUN curl -o emscripten.tar.gz "https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz" && \
+tar -xvf emscripten.tar.gz && cd emsdk_portable && \
+./emsdk update && ./emsdk install latest && ./emsdk activate latest && \
+echo "source $PWD/emsdk_env.sh" >> /home/buildbot/.bash_profile
 
 COMMENT(#,Some commercial wrappers are missing - Mathematica - MATLAB)
