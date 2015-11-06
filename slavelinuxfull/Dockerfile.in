@@ -1,0 +1,20 @@
+#define COMMENT(hash,input)hash input
+
+COMMENT(#,Define an image to build all of the 64bit CoolProp wrappers on the Linux platform including proprietary software)
+FROM coolprop/slavelinuxopen
+
+
+#include "../buildsteps/docker.maintainer.txt"
+
+
+#include "../buildsteps/docker.user.root.txt"
+
+
+COMMENT(#,Install MATLAB.)
+COPY resources/matlab_R2015b_glnxa64 /tmp/
+RUN /tmp/matlab_R2015b_glnxa64/install
+
+
+#include "../buildsteps/docker.user.bot.txt"
+
+

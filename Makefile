@@ -3,7 +3,7 @@
 
 CPP:=cpp -w -P
 
-DIRS := basesystem slavebase slavepython slaveweb slavelinux
+DIRS := basesystem slavebase slavepython slaveweb slavelinuxopen slavelinuxfull 
 
 define make-goal
 .PHONY : $1
