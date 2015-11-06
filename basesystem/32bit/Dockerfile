@@ -13,4 +13,4 @@ apt-get autoclean && apt-get clean && apt-get autoremove
  # Add some standard host keys
 RUN mkdir ${HOME}/.ssh && ssh-keyscan github.com >> ${HOME}/.ssh/known_hosts && ssh-keyscan bitbucket.org >> ${HOME}/.ssh/known_hosts && ssh-keyscan coolprop.org >> ${HOME}/.ssh/known_hosts && ssh-keyscan coolprop.dreamhosters.com >> ${HOME}/.ssh/known_hosts && cat ${HOME}/.ssh/known_hosts
  # Add the entrypoint
-ENTRYPOINT ["linux32 /bin/sh"]
+ENTRYPOINT ["linux32", "/bin/sh"]

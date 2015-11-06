@@ -14,4 +14,4 @@ USER buildbot
 WORKDIR /home/buildbot
  # Add the entrypoint that creates a repository on first launch
 COPY ./entrypoint.sh /
-ENTRYPOINT ["linux32 /entrypoint.sh"]
+ENTRYPOINT ["linux32", "/entrypoint.sh"]

@@ -22,7 +22,7 @@ $1/32bit/Dockerfile : $1/64bit/Dockerfile
 	sed 's/coolprop\/[a-zA-Z0-9]*/&32/g' <"$1/64bit/Dockerfile" > "$1/Dockerfile.1.tmp"
 	sed 's/Miniconda-latest-Linux-x86_64/Miniconda-latest-Linux-x86/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"
 	sed 's/64bit/32bit/g' "$1/Dockerfile.2.tmp" > "$1/Dockerfile.1.tmp"
-	sed 's/ENTRYPOINT\ \[\"/ENTRYPOINT\ \[\"linux32\ /g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"
+	sed 's/ENTRYPOINT\ \[\"/ENTRYPOINT\ \[\"linux32\",\ \"/g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"
 	sed 's/\ .\/miniconda.sh/\ linux32\ .\/miniconda.sh/g' "$1/Dockerfile.2.tmp" > "$1/Dockerfile.1.tmp"
 	sed 's/\ conda\ /\ linux32\ conda\ /g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"
 	sed 's/\ wxpython\ /\ /g' "$1/Dockerfile.2.tmp" > "$1/32bit/Dockerfile"
