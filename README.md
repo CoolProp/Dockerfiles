@@ -30,9 +30,10 @@ and you add it by running `set PATH=%PATH%;C:\Program Files\Oracle\VirtualBox`.
 
 ## Installing Proprietary Software
 
-The prerequisites to build the open-source wrappers are all combined in the `coolprop/slavelinuxopen` image. The `slavelinuxopen` 
+The prerequisites to build the open-source wrappers are all combined in the `coolprop/slavelinuxopen` image. The `slavelinuxfull` 
 folder contains files and instructions to build an image including the proprietary software like MATLAB and alike. These images have 
-to be built *locally* since the contain sofyware that requires specific licenses. 
+to be built *locally* since the contain sofyware that requires specific licenses. You can also install the software *after* the image 
+has been launched for the first time using the `docker exec -it` commands.
 
 ## Additional Information
 
