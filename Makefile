@@ -3,7 +3,7 @@
 
 CPP:=cpp -w -P
 
-TAG:=v1.2
+TAG:=v1.3dev
 
 DIRS := basesystem slavebase slavepython slaveopen
 
@@ -11,7 +11,7 @@ define make-goal
 .PHONY : $1
 $1 : $1/64bit/Dockerfile $1/32bit/Dockerfile
 
-$1/64bit/Dockerfile : $1/Dockerfile.in buildsteps/*.txt Makefile
+$1/64bit/Dockerfile : $1/Dockerfile.in buildsteps/*.txt
 	mkdir -p "$1/64bit"
 	if [ -f "$1/entrypoint.sh" ]; then cp "$1/entrypoint.sh" "$1/64bit/"; fi
 	$(CPP) -o $$@.tmp $$<
