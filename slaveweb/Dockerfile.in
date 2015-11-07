@@ -1,7 +1,7 @@
-#define COMMENT(hash,input)hash input
+#include "../buildsteps/base.txt"
 
 COMMENT(#,Define an image to build the CoolProp documentation)
-FROM coolprop/slavebase
+FROM coolprop/slavebase:VERSION
 
 
 #include "../buildsteps/docker.maintainer.txt"

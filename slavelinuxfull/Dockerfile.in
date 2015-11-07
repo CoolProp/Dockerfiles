@@ -1,7 +1,7 @@
-#define COMMENT(hash,input)hash input
+#include "../buildsteps/base.txt"
 
 COMMENT(#,Define an image to build all of the 64bit CoolProp wrappers on the Linux platform including proprietary software)
-FROM coolprop/slavelinuxopen
+FROM coolprop/slavelinuxopen:VERSION
 
 
 #include "../buildsteps/docker.maintainer.txt"

@@ -1,8 +1,7 @@
-#define COMMENT(hash,input)hash input
+#include "../buildsteps/base.txt"
 
 COMMENT(#,Define a base image for all 64bit CoolProp docker images)
-FROM coolprop/debian
-
+FROM coolprop/debian:VERSION
 
 #include "../buildsteps/docker.maintainer.txt"
 
