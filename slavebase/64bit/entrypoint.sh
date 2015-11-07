@@ -23,7 +23,7 @@ function startup()
   echo "Remember to update the SSH configuration:"
   echo "docker cp \${HOME}/.ssh ${SLAVENAME}:${HOME}/"
   echo "docker cp \${HOME}/.pypirc ${SLAVENAME}:${HOME}/"
-  echo "docker exec ${SLAVENAME} chown -R buildbot ${HOME}/"
+  echo "docker exec ${SLAVENAME} --user root chown -R buildbot ${HOME}/"
 }
 
 trap shutdown TERM SIGTERM SIGKILL SIGINT
