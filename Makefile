@@ -31,9 +31,15 @@ $1/32bit/Dockerfile : $1/64bit/Dockerfile
 	rm -f "$1/Dockerfile.1.tmp" "$1/Dockerfile.2.tmp"
 
 .PHONY : $1-build
-$1-build : $1
-	cd $1/64bit ; docker build -t coolprop/$1     -f Dockerfile . ; cd ..
+$1-build : $1-build64 $1-build32
+
+.PHONY : $1-build32
+$1-build32 : $1/32bit/Dockerfile
 	cd $1/32bit ; docker build -t coolprop/$(1)32 -f Dockerfile . ; cd ..
+	
+.PHONY : $1-build64
+$1-build64 : $1/64bit/Dockerfile
+	cd $1/64bit ; docker build -t coolprop/$(1) -f Dockerfile . ; cd ..
 
 endef
 
@@ -67,14 +73,17 @@ delete :
 	docker rmi $(foreach tdir,$(DIRS),coolprop/$(tdir)) $(foreach tdir,$(DIRS),coolprop/$(tdir)32)
 
 .PHONY : release
-release : $(foreach tdir,$(DIRS),$(tdir)-build)
+release : release64 release32
+
+.PHONY : release64
+release64 : $(foreach tdir,$(DIRS),$(tdir)-build64)
 	docker tag -f coolprop/debian coolprop/debian:$(TAG)
-	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
 	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir) coolprop/$(tdir):$(TAG);) 
+
+.PHONY : release32
+release32 : $(foreach tdir,$(DIRS),$(tdir)-build32)
+	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
 	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir)32 coolprop/$(tdir)32:$(TAG);)
-
-
-
 
 ###########################################################
 #  Just a test
