@@ -3,7 +3,9 @@
 
 CPP:=cpp -w -P
 
-DIRS := basesystem slavebase slavepython slavelinuxopen slavelinuxfull 
+TAG:=v1.2
+
+DIRS := basesystem slavebase slavepython slaveopen
 
 define make-goal
 .PHONY : $1
@@ -30,7 +32,7 @@ $1/32bit/Dockerfile : $1/64bit/Dockerfile
 
 .PHONY : $1-build
 $1-build : $1
-	cd $1/64bit ; docker build -t coolprop/$1 -f Dockerfile . ; cd ..
+	cd $1/64bit ; docker build -t coolprop/$1     -f Dockerfile . ; cd ..
 	cd $1/32bit ; docker build -t coolprop/$(1)32 -f Dockerfile . ; cd ..
 
 endef
@@ -51,8 +53,10 @@ debian : externals/debian32/build-image.sh
 	chmod +x debian/32bit/build-image.sh debian/64bit/build-image.sh
 	cd debian/32bit ; sudo ./build-image.sh stable ; cd ..
 	docker tag -f 32bit/debian:stable coolprop/debian32
+	docker tag -f 32bit/debian:stable coolprop/debian32:$(TAG)
 	cd debian/64bit ; sudo ./build-image.sh stable ; cd ..
 	docker tag -f 64bit/debian:stable coolprop/debian
+	docker tag -f 64bit/debian:stable coolprop/debian:$(TAG)
 
 .PHONY : push
 push : #debian
@@ -60,11 +64,14 @@ push : #debian
 	docker push coolprop/debian
 	docker push coolprop/debian32
 
+.PHONY : delete
+delete : 
+	docker rmi $(foreach tdir,$(DIRS),coolprop/$(tdir)) $(foreach tdir,$(DIRS),coolprop/$(tdir)32)
 
-.PHONY : 32bit
-32bit : $(DIRS)
-	sudo ./externals/debian32/build-image.sh
-	docker tag 32bit/debian:jessie coolprop/basesystem32
+.PHONY : release
+release : $(foreach tdir,$(DIRS),$(tdir)-build)
+	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir) coolprop/$(tdir):$(TAG);) 
+	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir)32 coolprop/$(tdir)32:$(TAG);)
 
 
 
