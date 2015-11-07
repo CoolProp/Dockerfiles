@@ -53,10 +53,8 @@ debian : externals/debian32/build-image.sh
 	chmod +x debian/32bit/build-image.sh debian/64bit/build-image.sh
 	cd debian/32bit ; sudo ./build-image.sh stable ; cd ..
 	docker tag -f 32bit/debian:stable coolprop/debian32
-	docker tag -f 32bit/debian:stable coolprop/debian32:$(TAG)
 	cd debian/64bit ; sudo ./build-image.sh stable ; cd ..
 	docker tag -f 64bit/debian:stable coolprop/debian
-	docker tag -f 64bit/debian:stable coolprop/debian:$(TAG)
 
 .PHONY : push
 push : #debian
@@ -70,6 +68,8 @@ delete :
 
 .PHONY : release
 release : $(foreach tdir,$(DIRS),$(tdir)-build)
+	docker tag -f coolprop/debian coolprop/debian:$(TAG)
+	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
 	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir) coolprop/$(tdir):$(TAG);) 
 	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir)32 coolprop/$(tdir)32:$(TAG);)
 
