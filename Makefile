@@ -65,10 +65,10 @@ debian : externals/debian32/build-image.sh
 .PHONY : push
 push : #debian
 	docker login
-	docker push coolprop/debian:$(TAG)
-	docker push coolprop/debian32:$(TAG)
-	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir):$(TAG);) 
-	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir)32:$(TAG);) 
+	docker push coolprop/debian
+	docker push coolprop/debian32
+	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir);) 
+	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir)32;) 
 
 .PHONY : delete
 delete : 
