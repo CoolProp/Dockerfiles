@@ -38,7 +38,7 @@ RUN pushd emsdk_portable && ./emsdk update && \
 ./emsdk install emscripten-master-64bit && \
 ./emsdk install sdk-master-64bit && \
 ./emsdk activate latest && \
-sed -i.bak 's/node/nodejs/g' /home/buildbot/.emscripten &&
+sed -i.bak 's/node/nodejs/g' /home/buildbot/.emscripten && \
 echo "source $PWD/emsdk_env.sh" >> /home/buildbot/.bash_profile && \
 popd 
 
