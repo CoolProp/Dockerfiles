@@ -12,13 +12,18 @@ FROM coolprop/slavepython:VERSION
 
 COMMENT(#,Install system tools for compilation of Python extensions numpy-scipy-pandas-matplotlib and the source code docs.)
 #include "../buildsteps/apt-get.start.txt"
-build-essential git gcc gfortran cmake python-dev p7zip \
+build-essential git gcc gfortran cmake python-dev p7zip-full \
 cython python-matplotlib python-pandas \
 swig octave liboctave-dev \
 swig mono-mcs mono-runtime \
+default-jdk nodejs \
 r-base-dev scilab julia && \\
 
 #include "../buildsteps/apt-get.stop.txt"
+
+
+COMMENT(#,Fix 7zip path name)
+COMMENT(#,RUN ln -s /usr/bin/7zr /usr/bin/7z )
 
 
 #include "../buildsteps/docker.user.bot.txt"
@@ -32,11 +37,12 @@ RUN pushd emsdk_portable && ./emsdk update && \
 ./emsdk install clang-master-64bit && \
 ./emsdk install emscripten-master-64bit && \
 ./emsdk install sdk-master-64bit && \
-popd
-
-RUN pushd emsdk_portable && ./emsdk activate latest && \
-echo "$PWD/emsdk activate latest" >> /home/buildbot/.bash_profile && \
+./emsdk activate latest && \
+sed -i.bak 's/node/nodejs/g' /home/buildbot/.emscripten &&
 echo "source $PWD/emsdk_env.sh" >> /home/buildbot/.bash_profile && \
 popd 
+
+COMMENT(#,Install six for the SWIG Python scripts)
+RUN pip install six --user 
 
 COMMENT(#,Some commercial wrappers are missing - Mathematica - MATLAB)

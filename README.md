@@ -9,7 +9,9 @@ Most of the images used to build CoolProp employ Debian's stable branch as their
 
 Based on the bare Debian images, the [basesystem](https://hub.docker.com/r/coolprop/basesystem/) and [basesystem32](https://hub.docker.com/r/coolprop/basesystem32/) Dockerfiles get built directly on Docker Hub as soon as new commits are pushed to this Git repository. These images contain the basic infrastructure required to compile CoolProp, which can be summarised to the GCC suite, version control systems and a slim Python installation. 
 
-Note that the largest images `coolprop/slaveopen` and `coolprop/slaveopen32` are not part of the automatic build system. They have to be generated and uploaded manually and you have to accept a cetain delay, but you can always build your own images from the Dockerfiles provided here.
+Note that the largest images `coolprop/slaveopen` and `coolprop/slaveopen32` are not part of the automatic build system. They have to be generated and uploaded manually and you have to accept a certain delay, but you can always build your own images from the Dockerfiles provided here. As of November 2015, the images are tested with the wrappers for Octave, C#, Java, JavScript
+
+so far untested are: Scilab, Julia
 
 ## Size Restrictions
 

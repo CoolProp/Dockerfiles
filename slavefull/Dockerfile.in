@@ -1,7 +1,7 @@
 #include "../buildsteps/base.txt"
 
 COMMENT(#,Define an image to build all of the 64bit CoolProp wrappers on the Linux platform including proprietary software)
-FROM coolprop/slavelinuxopen:VERSION
+FROM coolprop/slaveopen:VERSION
 
 
 #include "../buildsteps/docker.maintainer.txt"
@@ -9,10 +9,16 @@ FROM coolprop/slavelinuxopen:VERSION
 
 #include "../buildsteps/docker.user.root.txt"
 
+COMMENT(#,Install REFPROP from sources)
+
+
+COMMENT(#,Install Oracle JDK)
+COMMENT(#,COPY installer.sh /root/installer.sh)
+COMMENT(#,RUN chmod +x installer.sh && ./installer.sh jdk 8 tar)
 
 COMMENT(#,Install MATLAB - be sure to edit matlab_R2015b_glnxa64/installer_input.txt accordingly)
-COPY resources/matlab_R2015b_glnxa64 /tmp/matlab_R2015b_glnxa64
-RUN /tmp/matlab_R2015b_glnxa64/install -inputFile /tmp/matlab_R2015b_glnxa64/installer_input.txt
+COMMENT(#,COPY resources/matlab_R2015b_glnxa64 /tmp/matlab_R2015b_glnxa64)
+COMMENT(#,RUN /tmp/matlab_R2015b_glnxa64/install -inputFile /tmp/matlab_R2015b_glnxa64/installer_input.txt)
 
 
 #include "../buildsteps/docker.user.bot.txt"
