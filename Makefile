@@ -3,7 +3,7 @@
 
 CPP:=cpp -w -P
 
-TAG:=v1.3dev
+TAG:=v1.3
 
 DIRS := basesystem slavebase slavepython slaveopen slavefull
 
