@@ -54,10 +54,11 @@ all    : $(DIRS)
 debian : externals/debian32/build-image.sh
 	mkdir -p debian/64bit debian/32bit
 	cp externals/debian32/build-image.sh debian/
+	sed 's/http.debian.net/httpredir.debian.org/g' <debian/build-image.sh > debian/build-image.sh.tmp && mv debian/build-image.sh.tmp debian/build-image.sh
 	cp debian/build-image.sh debian/32bit/build-image.sh
-	sed 's/32bit/64bit/g' <debian/build-image.sh     > debian/build-image.sh.tmp
-	sed 's/i386/amd64/g'  <debian/build-image.sh.tmp > debian/64bit/build-image.sh
-	rm debian/build-image.sh.tmp
+	sed 's/32bit/64bit/g'                          <debian/build-image.sh > debian/build-image.sh.tmp && mv debian/build-image.sh.tmp debian/build-image.sh
+	sed 's/i386/amd64/g'                           <debian/build-image.sh > debian/build-image.sh.tmp && mv debian/build-image.sh.tmp debian/build-image.sh
+	cp debian/build-image.sh debian/64bit/build-image.sh
 	chmod +x debian/32bit/build-image.sh debian/64bit/build-image.sh
 	cd debian/32bit ; sudo ./build-image.sh stable ; cd ..
 	docker tag -f 32bit/debian:stable coolprop/debian32
