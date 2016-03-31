@@ -3,9 +3,9 @@
 
 CPP:=cpp -w -P
 
-TAG:=v1.3
+TAG:=latest
 
-DIRS := basesystem slavebase slavepython slaveopen #slavefull
+DIRS := basesystem slavebase slavepython #slaveopen #slavefull
 
 define make-goal
 .PHONY : $1

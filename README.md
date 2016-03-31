@@ -41,16 +41,46 @@ has been launched for the first time using the `docker exec -it` commands.
 
 ## Release Cycles
 
-Put a real version number in `buildsteps/base.txt`, make all targets and see how the automated builds fail due to the missing tags in the repositories. 
-Start tagging the images in the following order: debian/debian32 - basesystem/basesystem32 - slavebase/slavebase32 - slavepython/slavepython32. 
-Wait between each tagging session to allow the automatic builds to catch up with the new images.
+Put a real version number in `buildsteps/base.txt` and in the `Makefile`. Afterwards, invoke the makefile 
+with calling `make delete debian release` and push the resulting images to the server.
 
-Another possibility is to invoke the makefile with calling `make delete debian release` and push the resulting images to the server.
+If you build one image at a time, you should respect the internal dependecies and make the targets in the following 
+order: 
+`make debian`, 
+`make basesystem-build` and tag basesystem and basesystem32, 
+`make slavebase-build` and tag slavebase and slavebase32, 
+`make slavepython-build` and tag slavepython and slavepython32. 
+
+Another possibility is to use the automated build service. Here, you simply run make and push the created dockerfiles to 
+the repository. Also here you have to start with the debian images and the rest should just work. Wait between each tagging 
+session to allow the automatic builds to catch up with the new images. In a nutshell, the following commands should work 
+for a release: 
+
+```Bash
+TAG=v1.0
+make debian
+docker tag -f coolprop/debian coolprop/debian:${TAG}
+docker tag -f coolprop/debian32 coolprop/debian32:${TAG}
+docker login
+docker push coolprop/debian 
+docker push coolprop/debian32
+make all
+git commit basesystem/32bit/Dockerfile basesystem/64bit/Dockerfile -m "Updated basesystem for ${TAG}" && git push
+# Wait for https://hub.docker.com/r/coolprop/basesystem/builds/ and https://hub.docker.com/r/coolprop/basesystem32/builds/ 
+git commit slavebase/32bit/Dockerfile slavebase/64bit/Dockerfile -m "Updated slavebase for ${TAG}" && git push
+# Wait for https://hub.docker.com/r/coolprop/slavebase/builds/ and https://hub.docker.com/r/coolprop/slavebase32/builds/ 
+git commit slavepython/32bit/Dockerfile slavepython/64bit/Dockerfile -m "Updated slavepython for ${TAG}" && git push
+# Wait for https://hub.docker.com/r/coolprop/slavepython/builds/ and https://hub.docker.com/r/coolprop/slavepython32/builds/ 
+```
+
+Enter the dummy version numbers in `buildsteps/base.txt` (latest) and in the `Makefile` (latest) and rerun `make all` and commit 
+the new files.
 
 ## DNS problems
 
 If you run into DNS issues like `Could not resolve 'httpredir.debian.org'`, [here](https://norasky.wordpress.com/2015/06/09/docker-build-could-not-resolve/), 
-you can uncomment the line `DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4"` in `/etc/default/docker`. Do not forget to restart docker with `sudo /etc/init.d/docker restart`.
+you can uncomment the line `DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4"` in `/etc/default/docker`. If you still have problems after that, you might want to 
+add your local nameserver to the configuration file and do not forget to restart docker with `sudo /etc/init.d/docker restart`.
 
 ## Additional Information
 
