@@ -1,2 +1,2 @@
-RUN sudo apt-key update -qq && apt-get update -qq \
+RUN apt-key update -qq && apt-get update -qq \
 && DEBIAN_FRONTEND="noninteractive" apt-get install -y \
