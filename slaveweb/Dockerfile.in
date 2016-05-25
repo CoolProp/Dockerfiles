@@ -29,15 +29,15 @@ libpng-dev tk libfreetype6-dev && \\
 
 COMMENT(#,Install miniconda Python distribution)
 RUN curl -o miniconda.sh "http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh" && \
-chmod +x miniconda.sh && ./miniconda.sh -b && rm miniconda.sh && \
+chmod +x miniconda.sh && linux64 ./miniconda.sh -b && rm miniconda.sh && \
 echo "export PATH=/home/buildbot/miniconda3/bin:/home/buildbot/miniconda2/bin:$PATH" >> /home/buildbot/.bash_profile
 ENV PATH /home/buildbot/miniconda3/bin:/home/buildbot/miniconda2/bin:$PATH
 
 COMMENT(#,Add the additional packages to the conda environment)
 RUN \
-conda install conda-build && \
-conda create -n CoolPropWeb python=2.7 setuptools requests cython numpy scipy matplotlib pandas ipython wxpython && \
-conda clean -yilts
+linux64 conda install conda-build && \
+linux64 conda create -n CoolPropWeb python=2.7 setuptools requests cython numpy scipy matplotlib pandas ipython wxpython && \
+linux64 conda clean -yilts
 
 COMMENT(#,Add some pip packages that only exist there)
 RUN \

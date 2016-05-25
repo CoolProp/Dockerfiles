@@ -10,7 +10,7 @@ FROM coolprop/basesystem:VERSION
 #include "../buildsteps/docker.user.root.txt"
 
 
-RUN pip install buildbot-slave
+RUN linux64 pip install buildbot-slave
 
 COMMENT(#,Install the buildbot slave software and add the appropriate user)
 RUN groupadd -r buildbot && useradd -r -d /home/buildbot -m -s /bin/bash -g buildbot buildbot
@@ -20,4 +20,4 @@ RUN groupadd -r buildbot && useradd -r -d /home/buildbot -m -s /bin/bash -g buil
 
 COMMENT(#,Add the entrypoint that creates a repository on first launch)
 COPY ./entrypoint.sh /
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["linux64", "/entrypoint.sh"]
