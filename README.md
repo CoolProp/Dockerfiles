@@ -41,14 +41,17 @@ has been launched for the first time using the `docker exec -it` commands.
 
 ## Release Cycles
 
-Put a real version number in `buildsteps/base.txt` and in the `Makefile`. Afterwards, invoke the `Makefile` 
-with calling 
+The preferred release process is as follows:
 
-```Bash
-make delete debian push-debian release push-release
-``` 
+ - remove all old images: `make delete`
+ - put a real version number in `buildsteps/base.txt` and in `Makefile`
+ - `make debian push-debian release push-release`
+ - commit the changes, tag the files in git and push to remote
+ - enter the dummy version number (latest) in `buildsteps/base.txt` and in `Makefile`
+ - `make all`
+ - commit the changes to git master and push
 
-which creates the Dockerfiles, builds the containers and pushes the resulting images to the server. If you build one image 
+If you build one image 
 at a time, you should respect the internal dependecies and make the targets in the following order: 
 `make manylinux-build & make debian` and tag manylinux and manylinux32, 
 `make basesystem-build` and tag basesystem and basesystem32, 
@@ -77,13 +80,7 @@ git commit slavepython/32bit/Dockerfile slavepython/64bit/Dockerfile -m "Updated
 Enter the dummy version numbers in `buildsteps/base.txt` (latest) and in the `Makefile` (latest) and rerun `make all` and commit 
 the new files.
 
-The preferred release process is as follows:
 
- - put a real version number in `buildsteps/base.txt` and in `Makefile`
- - `make debian push-debian all`
- - commit the changes, tag the files in git and push to remote
- - enter the dummy version number (latest) in `buildsteps/base.txt` and in `Makefile`
- - run `make all` and commit the new files to git
 
 ## DNS problems
 

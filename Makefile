@@ -3,7 +3,7 @@
 
 CPP:=cpp -w -P
 
-TAG:=latest
+TAG:=v1.4.1
 
 DIRS := basesystem slavebase slavepython manylinux #slaveopen #slavefull
 
@@ -28,7 +28,7 @@ $1/32bit/Dockerfile : $1/64bit/Dockerfile
 	# Replace the coolprop docker image name with its 32bit version
 	sed 's/coolprop\/[a-zA-Z0-9]*/&32/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                               && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
 	# Set the architecture prefix
-	sed 's/linux64/linux32/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                      && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
+	sed 's/linux64/linux32/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                          && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
 	sed 's/64bit/32bit/g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                               && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
 	# Fix miniconda and the related buildbot tools
 	sed 's/Miniconda-latest-Linux-x86_64/Miniconda-latest-Linux-x86/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp" && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
@@ -82,7 +82,7 @@ push-debian :
 
 .PHONY : delete
 delete : 
-	docker rmi $(foreach tdir,$(DIRS),coolprop/$(tdir)) $(foreach tdir,$(DIRS),coolprop/$(tdir)32)
+	docker rmi -f $(foreach tdir,$(DIRS),coolprop/$(tdir)) $(foreach tdir,$(DIRS),coolprop/$(tdir)32)
 
 .PHONY : build64
 build64 : $(foreach tdir,$(DIRS),$(tdir)-build64)
