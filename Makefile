@@ -5,7 +5,7 @@ CPP:=cpp -w -P
 
 TAG:=latest
 
-DIRS := basesystem slavebase slavepython #slaveopen #slavefull
+DIRS := basesystem slavebase slavepython manylinux #slaveopen #slavefull
 
 define make-goal
 .PHONY : $1
