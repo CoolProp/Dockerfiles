@@ -71,11 +71,11 @@ debian : externals/debian32/build-image.sh
 	docker tag -f 32bit/debian:stable coolprop/debian32
 	cd debian/64bit ; sudo ./build-image.sh stable ; cd ..
 	docker tag -f 64bit/debian:stable coolprop/debian
+	docker tag -f coolprop/debian   coolprop/debian:$(TAG)
+	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
 
 .PHONY : push-debian
 push-debian : 
-	docker tag -f coolprop/debian   coolprop/debian:$(TAG)
-	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
 	docker login
 	docker push coolprop/debian
 	docker push coolprop/debian32
@@ -84,28 +84,28 @@ push-debian :
 delete : 
 	docker rmi -f $(foreach tdir,$(DIRS),coolprop/$(tdir)) $(foreach tdir,$(DIRS),coolprop/$(tdir)32)
 
-.PHONY : build64
-build64 : $(foreach tdir,$(DIRS),$(tdir)-build64)
-
-.PHONY : build32
-build32 : $(foreach tdir,$(DIRS),$(tdir)-build32)
-
-.PHONY : build
-build : build64 build32
-
-.PHONY : release64
-release64 : build64
-	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir) coolprop/$(tdir):$(TAG);) 
-
-.PHONY : release32
-release32 : build32
-	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir)32 coolprop/$(tdir)32:$(TAG);)
-
-.PHONY : release
-release : release64 release32
-
-.PHONY : push-release
-push-release : 
+.PHONY : push-images
+push-images : 
 	docker login
 	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir);) 
 	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir)32;) 
+
+.PHONY : full-release
+full-release : 
+	sudo ls
+	make manylinux-build &
+	make debian
+	docker tag -f coolprop/manylinux   coolprop/manylinux:$(TAG)
+	docker tag -f coolprop/manylinux32 coolprop/manylinux32:$(TAG)
+	make basesystem-build
+	docker tag -f coolprop/basesystem   coolprop/basesystem:$(TAG)
+	docker tag -f coolprop/basesystem32 coolprop/basesystem32:$(TAG)
+	make slavebase-build
+	docker tag -f coolprop/slavebase   coolprop/slavebase:$(TAG)
+	docker tag -f coolprop/slavebase32 coolprop/slavebase32:$(TAG)
+	make slavepython-build
+	docker tag -f coolprop/slavepython   coolprop/slavepython:$(TAG)
+	docker tag -f coolprop/slavepython32 coolprop/slavepython32:$(TAG)
+
+.PHONY : full-push
+full-push : push-debian push-images

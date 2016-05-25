@@ -45,18 +45,21 @@ The preferred release process is as follows:
 
  - remove all old images: `make delete`
  - put a real version number in `buildsteps/base.txt` and in `Makefile`
- - `make debian push-debian release push-release`
+ - `make full-release`
+ - `make full-push`
  - commit the changes, tag the files in git and push to remote
  - enter the dummy version number (latest) in `buildsteps/base.txt` and in `Makefile`
- - `make all`
+ - `make full-release`
+ - `make full-push`
  - commit the changes to git master and push
 
 If you build one image 
 at a time, you should respect the internal dependecies and make the targets in the following order: 
-`make manylinux-build & make debian` and tag manylinux and manylinux32, 
-`make basesystem-build` and tag basesystem and basesystem32, 
-`make slavebase-build` and tag slavebase and slavebase32, 
-`make slavepython-build` and tag slavepython and slavepython32. 
+
+ - `make manylinux-build & ; make debian & ; `, `wait $(jobs -p)` and tag manylinux and manylinux32, 
+ - `make basesystem-build` and tag basesystem and basesystem32, 
+ - `make slavebase-build` and tag slavebase and slavebase32, 
+ - `make slavepython-build` and tag slavepython and slavepython32. 
 
 Another possibility is to use the automated build service. Here, you simply run make and push the created dockerfiles to 
 the repository. Also here you have to start with the debian images and the rest should just work. Wait between each tagging 
