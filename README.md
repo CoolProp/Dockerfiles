@@ -53,21 +53,17 @@ The preferred release process is as follows:
  - `make full-push`
  - commit the changes to git master and push
 
-If you build one image 
-at a time, you should respect the internal dependecies and make the targets in the following order: 
+If you build one image at a time, you should respect the internal dependecies and make the 
+targets in the same order as  `make full-release` does. Remember to tag the new images 
+before you build the next one. 
 
- - `make manylinux-build & ; make debian & ; `, `wait $(jobs -p)` and tag manylinux and manylinux32, 
- - `make basesystem-build` and tag basesystem and basesystem32, 
- - `make slavebase-build` and tag slavebase and slavebase32, 
- - `make slavepython-build` and tag slavepython and slavepython32. 
-
-Another possibility is to use the automated build service. Here, you simply run make and push the created dockerfiles to 
-the repository. Also here you have to start with the debian images and the rest should just work. Wait between each tagging 
-session to allow the automatic builds to catch up with the new images. In a nutshell, the following commands should work 
-for a release: 
+Another possibility is to use the automated build service. Also here you have to start with 
+the debian images and the rest should just work. Wait between each push to allow 
+the automatic builds to catch up with the new images. In a nutshell, the following commands 
+should work for a release: 
 
 ```Bash
-TAG=v1.4
+TAG=v1.4.1
 make debian push-debian
 make all
 git commit manylinux/32bit/Dockerfile manylinux/64bit/Dockerfile -m "Updated manylinux for ${TAG}" 
