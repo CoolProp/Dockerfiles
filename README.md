@@ -45,7 +45,7 @@ Put a real version number in `buildsteps/base.txt` and in the `Makefile`. Afterw
 with calling 
 
 ```Bash
-make delete debian release push-docker
+make delete debian push-debian release push-release
 ``` 
 
 which creates the Dockerfiles, builds the containers and pushes the resulting images to the server. If you build one image 
@@ -80,7 +80,8 @@ the new files.
 The preferred release process is as follows:
 
  - put a real version number in `buildsteps/base.txt` and in `Makefile`
- - `make debian push-debian git-tag-push`
+ - `make debian push-debian all`
+ - commit the changes, tag the files in git and push to remote
  - enter the dummy version number (latest) in `buildsteps/base.txt` and in `Makefile`
  - run `make all` and commit the new files to git
 
