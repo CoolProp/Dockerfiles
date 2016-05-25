@@ -7,7 +7,7 @@ Welcome to **CoolProp/Dockerfiles** - a repository that provides Docker images p
 
 Most of the images used to build CoolProp employ Debian's stable branch as their base image. Have a look at the `debian` subdirectory to see how these images are created from scratch in a chroot environment using the scripts provided by [Dashamir Hoxha](https://github.com/docker-32bit/debian). The binaries are uploaded to the [debian](https://hub.docker.com/r/coolprop/debian/) and the [debian32](https://hub.docker.com/r/coolprop/debian32/) repositories on Docker Hub.
 
-Based on the bare Debian images, the [basesystem](https://hub.docker.com/r/coolprop/basesystem/) and [basesystem32](https://hub.docker.com/r/coolprop/basesystem32/) Dockerfiles get built directly on Docker Hub as soon as new commits are pushed to this Git repository. These images contain the basic infrastructure required to compile CoolProp, which can be summarised to the GCC suite, version control systems and a slim Python installation. 
+Based on the bare Debian images, the [basesystem](https://hub.docker.com/r/coolprop/basesystem/) and [basesystem32](https://hub.docker.com/r/coolprop/basesystem32/) containers get built directly on Docker Hub as soon as new commits are pushed to this Git repository. These images contain the basic infrastructure required to compile CoolProp, which can be summarised to the GCC suite, version control systems and a slim Python installation. 
 
 Note that the largest images `coolprop/slaveopen` and `coolprop/slaveopen32` are not part of the automatic build system. They have to be generated and uploaded manually and you have to accept a certain delay, but you can always build your own images from the Dockerfiles provided here. As of November 2015, the images are tested with the wrappers for Octave, C#, Java, JavScript
 
@@ -41,12 +41,16 @@ has been launched for the first time using the `docker exec -it` commands.
 
 ## Release Cycles
 
-Put a real version number in `buildsteps/base.txt` and in the `Makefile`. Afterwards, invoke the makefile 
-with calling `make delete debian release` and push the resulting images to the server.
+Put a real version number in `buildsteps/base.txt` and in the `Makefile`. Afterwards, invoke the `Makefile` 
+with calling 
 
-If you build one image at a time, you should respect the internal dependecies and make the targets in the following 
-order: 
-`make debian`, 
+```Bash
+make delete debian release push-docker
+``` 
+
+which creates the Dockerfiles, builds the containers and pushes the resulting images to the server. If you build one image 
+at a time, you should respect the internal dependecies and make the targets in the following order: 
+`make manylinux-build & make debian` and tag manylinux and manylinux32, 
 `make basesystem-build` and tag basesystem and basesystem32, 
 `make slavebase-build` and tag slavebase and slavebase32, 
 `make slavepython-build` and tag slavepython and slavepython32. 
@@ -57,14 +61,11 @@ session to allow the automatic builds to catch up with the new images. In a nuts
 for a release: 
 
 ```Bash
-TAG=v1.0
-make debian
-docker tag -f coolprop/debian coolprop/debian:${TAG}
-docker tag -f coolprop/debian32 coolprop/debian32:${TAG}
-docker login
-docker push coolprop/debian 
-docker push coolprop/debian32
+TAG=v1.4
+make debian push-debian
 make all
+git commit manylinux/32bit/Dockerfile manylinux/64bit/Dockerfile -m "Updated manylinux for ${TAG}" 
+# Continue directly, the manylinux image has no internal dependencies
 git commit basesystem/32bit/Dockerfile basesystem/64bit/Dockerfile -m "Updated basesystem for ${TAG}" && git push
 # Wait for https://hub.docker.com/r/coolprop/basesystem/builds/ and https://hub.docker.com/r/coolprop/basesystem32/builds/ 
 git commit slavebase/32bit/Dockerfile slavebase/64bit/Dockerfile -m "Updated slavebase for ${TAG}" && git push
@@ -75,6 +76,13 @@ git commit slavepython/32bit/Dockerfile slavepython/64bit/Dockerfile -m "Updated
 
 Enter the dummy version numbers in `buildsteps/base.txt` (latest) and in the `Makefile` (latest) and rerun `make all` and commit 
 the new files.
+
+The preferred release process is as follows:
+
+ - put a real version number in `buildsteps/base.txt` and in `Makefile`
+ - `make debian push-debian git-tag-push`
+ - enter the dummy version number (latest) in `buildsteps/base.txt` and in `Makefile`
+ - run `make all` and commit the new files to git
 
 ## DNS problems
 
