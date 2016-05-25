@@ -43,7 +43,7 @@ has been launched for the first time using the `docker exec -it` commands.
 
 The preferred release process is as follows:
 
- - remove all old images: `make delete`
+ - remove all old images: `make delete` (or ``docker stop `docker ps -aq`; docker rm `docker ps -aq`; docker rmi `docker images -q`;``)
  - put a real version number in `buildsteps/base.txt` and in `Makefile`
  - `make full-release`
  - `make full-push`

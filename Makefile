@@ -71,8 +71,6 @@ debian : externals/debian32/build-image.sh
 	docker tag -f 32bit/debian:stable coolprop/debian32
 	cd debian/64bit ; sudo ./build-image.sh stable ; cd ..
 	docker tag -f 64bit/debian:stable coolprop/debian
-	docker tag -f coolprop/debian   coolprop/debian:$(TAG)
-	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
 
 .PHONY : push-debian
 push-debian : 
@@ -94,6 +92,8 @@ push-images :
 full-release : 
 	sudo ls
 	make debian
+	docker tag -f coolprop/debian   coolprop/debian:$(TAG)
+	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
 	make manylinux-build
 	docker tag -f coolprop/manylinux   coolprop/manylinux:$(TAG)
 	docker tag -f coolprop/manylinux32 coolprop/manylinux32:$(TAG)
