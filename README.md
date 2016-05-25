@@ -49,8 +49,7 @@ The preferred release process is as follows:
  - `make full-push`
  - commit the changes, tag the files in git and push to remote
  - enter the dummy version number (latest) in `buildsteps/base.txt` and in `Makefile`
- - `make full-release`
- - `make full-push`
+ - `make all`
  - commit the changes to git master and push
 
 If you build one image at a time, you should respect the internal dependecies and make the 

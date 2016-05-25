@@ -91,19 +91,19 @@ push-images :
 .PHONY : full-release
 full-release : 
 	sudo ls
-	make debian
+	make debian && sleep 2
 	docker tag -f coolprop/debian   coolprop/debian:$(TAG)
 	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
-	make manylinux-build
+	make manylinux-build && sleep 2
 	docker tag -f coolprop/manylinux   coolprop/manylinux:$(TAG)
 	docker tag -f coolprop/manylinux32 coolprop/manylinux32:$(TAG)
-	make basesystem-build
+	make basesystem-build && sleep 2
 	docker tag -f coolprop/basesystem   coolprop/basesystem:$(TAG)
 	docker tag -f coolprop/basesystem32 coolprop/basesystem32:$(TAG)
-	make slavebase-build
+	make slavebase-build && sleep 2
 	docker tag -f coolprop/slavebase   coolprop/slavebase:$(TAG)
 	docker tag -f coolprop/slavebase32 coolprop/slavebase32:$(TAG)
-	make slavepython-build
+	make slavepython-build && sleep 2
 	docker tag -f coolprop/slavepython   coolprop/slavepython:$(TAG)
 	docker tag -f coolprop/slavepython32 coolprop/slavepython32:$(TAG)
 
