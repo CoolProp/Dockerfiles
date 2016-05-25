@@ -1,2 +1,2 @@
 #define COMMENT(hash,input)hash input
-#define VERSION latest
+#define VERSION v1.4

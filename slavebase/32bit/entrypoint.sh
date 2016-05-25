@@ -13,7 +13,9 @@ function startup()
     echo "${BOTADMIN} <${BOTEMAIL}>" > ${SLAVEDIR}/info/admin
     echo "${BOTHOST}" > ${SLAVEDIR}/info/host
   fi
-  # Remove the security relevant variable from the environment
+  # Remove the security relevant variables from the environment
+  # Otherwise, they will be listed as clear text in the buildbot 
+  # logs that are publicly available.
   unset MASTERHOST
   unset SLAVEPASSWORD
   unset BOTADMIN
@@ -23,7 +25,7 @@ function startup()
   echo "Remember to update the SSH configuration:"
   echo "docker cp \${HOME}/.ssh ${SLAVENAME}:${HOME}/"
   echo "docker cp \${HOME}/.pypirc ${SLAVENAME}:${HOME}/"
-  echo "docker exec ${SLAVENAME} --user root chown -R buildbot ${HOME}/"
+  echo "docker exec --user root ${SLAVENAME} find ${HOME} ! -user buildbot -exec chown buildbot {} \\;"
 }
 
 trap shutdown TERM SIGTERM SIGKILL SIGINT

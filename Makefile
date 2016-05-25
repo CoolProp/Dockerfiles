@@ -3,7 +3,7 @@
 
 CPP:=cpp -w -P
 
-TAG:=latest
+TAG:=v1.4
 
 DIRS := basesystem slavebase slavepython manylinux #slaveopen #slavefull
 
@@ -72,11 +72,22 @@ debian : externals/debian32/build-image.sh
 	cd debian/64bit ; sudo ./build-image.sh stable ; cd ..
 	docker tag -f 64bit/debian:stable coolprop/debian
 
-.PHONY : push-docker
-push-docker : #debian
+.PHONY : push-debian
+push-debian : #debian
+	docker tag -f coolprop/debian   coolprop/debian:$(TAG)
+	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
 	docker login
 	docker push coolprop/debian
 	docker push coolprop/debian32
+
+.PHONY : git-tag-push
+git-tag-push : all
+	git commit -am "Updated Dockerfiles for ${TAG}"
+	git tag "${TAG}" master && git push --follow-tags
+
+.PHONY : push-docker
+push-docker : #debian
+	docker login
 	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir);) 
 	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir)32;) 
 
@@ -89,10 +100,8 @@ release : release64 release32
 
 .PHONY : release64
 release64 : $(foreach tdir,$(DIRS),$(tdir)-build64)
-	docker tag -f coolprop/debian coolprop/debian:$(TAG)
 	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir) coolprop/$(tdir):$(TAG);) 
 
 .PHONY : release32
 release32 : $(foreach tdir,$(DIRS),$(tdir)-build32)
-	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
 	$(foreach tdir,$(DIRS),docker tag -f coolprop/$(tdir)32 coolprop/$(tdir)32:$(TAG);)
