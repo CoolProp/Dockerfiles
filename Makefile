@@ -93,8 +93,8 @@ push-images :
 .PHONY : full-release
 full-release : 
 	sudo ls
-	make manylinux-build &
 	make debian
+	make manylinux-build
 	docker tag -f coolprop/manylinux   coolprop/manylinux:$(TAG)
 	docker tag -f coolprop/manylinux32 coolprop/manylinux32:$(TAG)
 	make basesystem-build
