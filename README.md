@@ -63,7 +63,7 @@ the automatic builds to catch up with the new images. In a nutshell, the followi
 should work for a release: 
 
 ```Bash
-TAG=v1.4.1
+TAG=v1.4.2
 make debian push-debian
 make all
 git commit manylinux/32bit/Dockerfile manylinux/64bit/Dockerfile -m "Updated manylinux for ${TAG}" 
