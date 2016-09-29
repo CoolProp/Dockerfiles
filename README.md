@@ -51,7 +51,7 @@ The preferred release process is as follows:
  - enter the dummy version number (latest) in `buildsteps/base.txt` and in `Makefile`
  - `make all`
  - commit the changes to git master and push
- - Update the manylinux builders to pull the new image `wrappers/Python/manylinux/build_images.sh`
+ - Update the manylinux builders to pull the new image `wrappers/Python/manylinux/00_prepare_docker.sh`
 
 If you build one image at a time, you should respect the internal dependecies and make the 
 targets in the same order as  `make full-release` does. Remember to tag the new images 
