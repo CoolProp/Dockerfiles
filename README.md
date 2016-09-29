@@ -44,13 +44,14 @@ has been launched for the first time using the `docker exec -it` commands.
 The preferred release process is as follows:
 
  - remove all old images: `make delete` (or ``docker stop `docker ps -aq`; docker rm `docker ps -aq`; docker rmi `docker images -q`;``)
- - put a real version number in `buildsteps/base.txt` and in `Makefile`
+ - put a real version number (vX.X.X) in `buildsteps/base.txt` and in `Makefile`
  - `make full-release`
  - `make full-push`
  - commit the changes, tag the files in git and push to remote
  - enter the dummy version number (latest) in `buildsteps/base.txt` and in `Makefile`
  - `make all`
  - commit the changes to git master and push
+ - Update the manylinux builders to pull the new image `wrappers/Python/manylinux/build_images.sh`
 
 If you build one image at a time, you should respect the internal dependecies and make the 
 targets in the same order as  `make full-release` does. Remember to tag the new images 
