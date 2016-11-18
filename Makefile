@@ -3,7 +3,7 @@
 
 CPP:=cpp -w -P
 
-TAG:=latest
+TAG:=v1.4.4
 
 DIRS := basesystem slavebase slavepython manylinux #slaveopen #slavefull
 
@@ -26,15 +26,15 @@ $1/32bit/Dockerfile : $1/64bit/Dockerfile
 	if [ -f "$1/64bit/installer.sh" ];  then cp "$1/64bit/installer.sh" "$1/32bit/";  fi
 	cp "$1/64bit/Dockerfile" "$1/Dockerfile.1.tmp"	
 	# Replace the coolprop docker image name with its 32bit version
-	sed 's/coolprop\/[a-zA-Z0-9]*/&32/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                               && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
+	sed 's/coolprop\/[a-zA-Z0-9]*/&32/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                 && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
 	# Set the architecture prefix
-	sed 's/linux64/linux32/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                          && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
-	sed 's/64bit/32bit/g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                               && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
+	sed 's/linux64/linux32/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                            && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
+	sed 's/64bit/32bit/g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                                 && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
 	# Fix miniconda and the related buildbot tools
-	sed 's/Miniconda-latest-Linux-x86_64/Miniconda-latest-Linux-x86/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp" && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
-	sed 's/\ wxpython\ /\ /g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                           && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
+	sed 's/Miniconda3-latest-Linux-x86_64/Miniconda3-latest-Linux-x86/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp" && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
+	sed 's/\ wxpython\ /\ /g' "$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                                             && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
 	# Special changes for the manylinux builder
-	sed 's/manylinux1_x86_64/manylinux1_i686/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                        && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
+	sed 's/manylinux1_x86_64/manylinux1_i686/g' <"$1/Dockerfile.1.tmp" > "$1/Dockerfile.2.tmp"                          && mv "$1/Dockerfile.2.tmp" "$1/Dockerfile.1.tmp"
 	# Finish the procesing	
 	cp "$1/Dockerfile.1.tmp" "$1/32bit/Dockerfile"
 	rm -f "$1/Dockerfile.1.tmp" "$1/Dockerfile.2.tmp"
@@ -68,9 +68,9 @@ debian : externals/debian32/build-image.sh
 	cp debian/build-image.sh debian/64bit/build-image.sh
 	chmod +x debian/32bit/build-image.sh debian/64bit/build-image.sh
 	cd debian/32bit ; sudo ./build-image.sh stable ; cd ..
-	docker tag -f 32bit/debian:stable coolprop/debian32
+	docker tag 32bit/debian:stable coolprop/debian32
 	cd debian/64bit ; sudo ./build-image.sh stable ; cd ..
-	docker tag -f 64bit/debian:stable coolprop/debian
+	docker tag 64bit/debian:stable coolprop/debian
 
 .PHONY : push-debian
 push-debian : 
@@ -91,21 +91,21 @@ push-images :
 .PHONY : full-release
 full-release : 
 	sudo ls
-	make debian && sleep 2
-	docker tag -f coolprop/debian   coolprop/debian:$(TAG)
-	docker tag -f coolprop/debian32 coolprop/debian32:$(TAG)
-	make manylinux-build && sleep 2
-	docker tag -f coolprop/manylinux   coolprop/manylinux:$(TAG)
-	docker tag -f coolprop/manylinux32 coolprop/manylinux32:$(TAG)
-	make basesystem-build && sleep 2
-	docker tag -f coolprop/basesystem   coolprop/basesystem:$(TAG)
-	docker tag -f coolprop/basesystem32 coolprop/basesystem32:$(TAG)
-	make slavebase-build && sleep 2
-	docker tag -f coolprop/slavebase   coolprop/slavebase:$(TAG)
-	docker tag -f coolprop/slavebase32 coolprop/slavebase32:$(TAG)
-	make slavepython-build && sleep 2
-	docker tag -f coolprop/slavepython   coolprop/slavepython:$(TAG)
-	docker tag -f coolprop/slavepython32 coolprop/slavepython32:$(TAG)
+	make debian && sleep 5
+	docker tag coolprop/debian   coolprop/debian:$(TAG)
+	docker tag coolprop/debian32 coolprop/debian32:$(TAG)
+	make manylinux-build && sleep 5
+	docker tag coolprop/manylinux   coolprop/manylinux:$(TAG)
+	docker tag coolprop/manylinux32 coolprop/manylinux32:$(TAG)
+	make basesystem-build && sleep 5
+	docker tag coolprop/basesystem   coolprop/basesystem:$(TAG)
+	docker tag coolprop/basesystem32 coolprop/basesystem32:$(TAG)
+	make slavebase-build && sleep 5
+	docker tag coolprop/slavebase   coolprop/slavebase:$(TAG)
+	docker tag coolprop/slavebase32 coolprop/slavebase32:$(TAG)
+	make slavepython-build && sleep 5
+	docker tag coolprop/slavepython   coolprop/slavepython:$(TAG)
+	docker tag coolprop/slavepython32 coolprop/slavepython32:$(TAG)
 
 .PHONY : full-push
 full-push : push-debian push-images

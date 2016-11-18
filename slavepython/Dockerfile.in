@@ -23,7 +23,7 @@ libhdf5-serial-dev libnetcdf-dev liblapack-dev libatlas-dev libblas-dev && \\
 
 
 COMMENT(#,Install miniconda Python distribution)
-RUN curl -o miniconda.sh "http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh" && \
+RUN curl -o miniconda.sh "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh" && \
 chmod +x miniconda.sh && linux64 ./miniconda.sh -b && rm miniconda.sh && \
 echo "export PATH=/home/buildbot/miniconda3/bin:/home/buildbot/miniconda2/bin:$PATH" >> /home/buildbot/.bash_profile
 ENV PATH /home/buildbot/miniconda3/bin:/home/buildbot/miniconda2/bin:$PATH
