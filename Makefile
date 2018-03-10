@@ -3,7 +3,7 @@
 
 CPP:=cpp -w -P
 
-TAG:=v1.5.1
+TAG:=latest
 
 DIRS := basesystem slavebase slavepython manylinux #slaveopen #slavefull
 
