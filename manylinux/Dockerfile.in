@@ -15,7 +15,6 @@ RUN \
 /opt/python/cp27-cp27m/bin/pip install virtualenv && \
 /opt/python/cp27-cp27m/bin/virtualenv /py27   --python=/opt/python/cp27-cp27m/bin/python && \
 /opt/python/cp27-cp27m/bin/virtualenv /py27mu --python=/opt/python/cp27-cp27mu/bin/python && \
-/opt/python/cp27-cp27m/bin/virtualenv /py33   --python=/opt/python/cp33-cp33m/bin/python && \
 /opt/python/cp27-cp27m/bin/virtualenv /py34   --python=/opt/python/cp34-cp34m/bin/python && \
 /opt/python/cp27-cp27m/bin/virtualenv /py35   --python=/opt/python/cp35-cp35m/bin/python && \
 /opt/python/cp27-cp27m/bin/virtualenv /py36   --python=/opt/python/cp36-cp36m/bin/python && \
@@ -25,7 +24,6 @@ COMMENT(#,Install pip packages needed)
 RUN \
 /py27/bin/pip install cython && \
 /py27mu/bin/pip install cython && \
-/py33/bin/pip install cython && \
 /py34/bin/pip install cython && \
 /py35/bin/pip install cython && \
 /py36/bin/pip install cython && \
