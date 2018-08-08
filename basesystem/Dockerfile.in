@@ -22,6 +22,7 @@ COMMENT(#,Add some standard host keys)
 RUN \
 mkdir ${HOME}/.ssh && \
 ssh-keyscan github.com >> ${HOME}/.ssh/known_hosts && \
+ssh-keyscan gitlab.com >> ${HOME}/.ssh/known_hosts && \
 ssh-keyscan bitbucket.org >> ${HOME}/.ssh/known_hosts && \
 ssh-keyscan coolprop.org >> ${HOME}/.ssh/known_hosts && \
 ssh-keyscan coolprop.dreamhosters.com >> ${HOME}/.ssh/known_hosts && \
