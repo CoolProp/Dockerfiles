@@ -58,19 +58,9 @@ $(foreach tdir,$(DIRS),$(eval $(call make-goal,$(tdir))))
 all    : $(DIRS)
 
 .PHONY : debian
-debian : externals/debian32/build-image.sh
-	mkdir -p debian/64bit debian/32bit
-	cp externals/debian32/build-image.sh debian/
-	sed 's/http.debian.net/httpredir.debian.org/g' <debian/build-image.sh > debian/build-image.sh.tmp && mv debian/build-image.sh.tmp debian/build-image.sh
-	cp debian/build-image.sh debian/32bit/build-image.sh
-	sed 's/32bit/64bit/g'                          <debian/build-image.sh > debian/build-image.sh.tmp && mv debian/build-image.sh.tmp debian/build-image.sh
-	sed 's/i386/amd64/g'                           <debian/build-image.sh > debian/build-image.sh.tmp && mv debian/build-image.sh.tmp debian/build-image.sh
-	cp debian/build-image.sh debian/64bit/build-image.sh
-	chmod +x debian/32bit/build-image.sh debian/64bit/build-image.sh
-	cd debian/32bit ; sudo ./build-image.sh stable ; cd ..
-	docker tag 32bit/debian:stable coolprop/debian32
-	cd debian/64bit ; sudo ./build-image.sh stable ; cd ..
-	docker tag 64bit/debian:stable coolprop/debian
+debian : debian/32bit/Dockerfile debian/64bit/Dockerfile
+	cd debian/32bit/ ; docker build -t coolprop/debian32 -f Dockerfile . ; cd ../..
+	cd debian/64bit/ ; docker build -t coolprop/debian   -f Dockerfile . ; cd ../..
 
 .PHONY : push-debian
 push-debian : 
@@ -90,7 +80,6 @@ push-images :
 
 .PHONY : full-release
 full-release : 
-	sudo ls
 	make debian && sleep 5
 	docker tag coolprop/debian   coolprop/debian:$(TAG)
 	docker tag coolprop/debian32 coolprop/debian32:$(TAG)
