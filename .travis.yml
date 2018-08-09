@@ -18,9 +18,9 @@ stages:
 jobs:
   include:
     - stage: prepare
-      script: make clean
-      script: make debian
-      script: make manylinux-build
+      script: make debian-build
+    - stage: prepare
+      script: make clean && make manylinux-build
     - stage: build
       script: make full-release
     - stage: deploy

@@ -61,7 +61,7 @@ $(foreach tdir,$(DIRS),$(eval $(call make-goal,$(tdir))))
 .PHONY : all
 all    : $(DIRS)
 
-.PHONY : debian
+.PHONY : debian-build
 debian : debian/32bit/Dockerfile debian/64bit/Dockerfile
 	cd debian/32bit/ ; docker build -t coolprop/debian32 -f Dockerfile . ; cd ../..
 	cd debian/64bit/ ; docker build -t coolprop/debian   -f Dockerfile . ; cd ../..
@@ -87,7 +87,7 @@ push-images :
 
 .PHONY : full-release
 full-release : 
-	make debian && sleep 5
+	make debian-build && sleep 5
 	docker tag coolprop/debian   coolprop/debian:$(TAG)
 	docker tag coolprop/debian32 coolprop/debian32:$(TAG)
 	make manylinux-build && sleep 5
