@@ -1,7 +1,5 @@
 sudo: required
 
-language: cpp
-
 services:
   - docker
 
@@ -17,7 +15,4 @@ build::images:
 
 deploy::latest:
   - stage: deploy
-    script: skip
-    deploy: 
-      provider: script
-      script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
+    script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
