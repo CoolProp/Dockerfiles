@@ -16,15 +16,23 @@ install:
   - make manylinux-build
 
 script: 
-  - make full-release
+  #- make build-images
+  - make basesystem-build
+  - make slavebase-build
+  - make slavepython-build
   - echo "All done."
 
 deploy:
   - provider: script
-    script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
+    script: 
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - make push-images
     on:
       branch: master
   - provider: script
-    script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
+    script: 
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - make tag-images TAG=$TRAVIS_TAG
+      - make push-images
     on:
       tags: true

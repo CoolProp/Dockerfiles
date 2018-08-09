@@ -66,11 +66,6 @@ debian-build : debian/32bit/Dockerfile debian/64bit/Dockerfile
 	cd debian/32bit/ ; docker build -t coolprop/debian32 -f Dockerfile . ; cd ../..
 	cd debian/64bit/ ; docker build -t coolprop/debian   -f Dockerfile . ; cd ../..
 
-.PHONY : push-debian
-push-debian : 
-	docker push coolprop/debian
-	docker push coolprop/debian32
-
 .PHONY : delete
 delete : 
 	docker rmi -f $(foreach tdir,$(DIRS),coolprop/$(tdir)) $(foreach tdir,$(DIRS),coolprop/$(tdir)32)
@@ -78,28 +73,21 @@ delete :
 .PHONY : clean
 clean : basesystem-clean slavebase-clean slavepython-clean manylinux-clean
 
-.PHONY : push-images
-push-images : 
-	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir);) 
-	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir)32;) 
+.PHONY : build-images
+build-images : 
+	make debian-build
+	$(foreach tdir,$(DIRS),make $(tdir)-build;)
 
-.PHONY : full-release
-full-release : 
-	make debian-build && sleep 5
+.PHONY : tag-images
+tag-images : 
 	docker tag coolprop/debian   coolprop/debian:$(TAG)
 	docker tag coolprop/debian32 coolprop/debian32:$(TAG)
-	make manylinux-build && sleep 5
-	docker tag coolprop/manylinux   coolprop/manylinux:$(TAG)
-	docker tag coolprop/manylinux32 coolprop/manylinux32:$(TAG)
-	make basesystem-build && sleep 5
-	docker tag coolprop/basesystem   coolprop/basesystem:$(TAG)
-	docker tag coolprop/basesystem32 coolprop/basesystem32:$(TAG)
-	make slavebase-build && sleep 5
-	docker tag coolprop/slavebase   coolprop/slavebase:$(TAG)
-	docker tag coolprop/slavebase32 coolprop/slavebase32:$(TAG)
-	make slavepython-build && sleep 5
-	docker tag coolprop/slavepython   coolprop/slavepython:$(TAG)
-	docker tag coolprop/slavepython32 coolprop/slavepython32:$(TAG)
+	$(foreach tdir,$(DIRS),docker tag coolprop/$(tdir)   coolprop/$(tdir):$(TAG);)
+	$(foreach tdir,$(DIRS),docker tag coolprop/$(tdir)32 coolprop/$(tdir)32:$(TAG);)
 
-.PHONY : full-push
-full-push : push-debian push-images
+.PHONY : push-images
+push-images : 
+	docker push coolprop/debian
+	docker push coolprop/debian32
+	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir);)
+	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir)32;)
