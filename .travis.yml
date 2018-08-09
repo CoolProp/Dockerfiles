@@ -1,0 +1,23 @@
+sudo: required
+
+language: cpp
+
+services:
+  - docker
+
+stages:
+  - build
+  - name: deploy
+    if: tag = true
+    #if: branch = master OR tag = true
+
+build::images:
+  - stage: build
+    script: make full-release
+
+deploy::latest:
+  - stage: deploy
+    script: skip
+    deploy: 
+      provider: script
+      script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
