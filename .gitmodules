@@ -1,6 +1,0 @@
-[submodule "externals/debian32"]
-	path = externals/debian32
-	url = https://github.com/docker-32bit/debian.git
-[submodule "externals/ubuntu32"]
-	path = externals/ubuntu32
-	url = https://github.com/docker-32bit/ubuntu.git
