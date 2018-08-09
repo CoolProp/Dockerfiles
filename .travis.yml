@@ -13,10 +13,10 @@ before_install:
 
 install:
   - make debian-build
-  #- make manylinux-build
+  - make manylinux-build
 
 script: 
-#  - make full-release
+  - make full-release
   - echo "All done."
 
 deploy:
