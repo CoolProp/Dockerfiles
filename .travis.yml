@@ -17,9 +17,15 @@ install:
 
 script: 
   - make full-release
+  - if [ -z "$TRAVIS_TAG" ]; then exit 0; fi
+  - make full-release TAG="$TRAVIS_TAG"
 
 deploy:
-  provider: script
-  script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
-  on:
-    branch: master
+  - provider: script
+    script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
+    on:
+      branch: master
+  - provider: script
+    script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
+    on:
+      tags: true
