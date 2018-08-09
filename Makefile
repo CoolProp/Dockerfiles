@@ -68,7 +68,6 @@ debian-build : debian/32bit/Dockerfile debian/64bit/Dockerfile
 
 .PHONY : push-debian
 push-debian : 
-	docker login
 	docker push coolprop/debian
 	docker push coolprop/debian32
 
@@ -81,7 +80,6 @@ clean : basesystem-clean slavebase-clean slavepython-clean manylinux-clean
 
 .PHONY : push-images
 push-images : 
-	docker login
 	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir);) 
 	$(foreach tdir,$(DIRS),docker push coolprop/$(tdir)32;) 
 
