@@ -9,7 +9,7 @@ services:
   - docker
 
 before_install:
-  - make make clean
+  - make clean
 
 install:
   - make debian-build
