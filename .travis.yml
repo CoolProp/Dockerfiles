@@ -15,10 +15,8 @@ install:
   - make debian-build
   - make manylinux-build
 
-script: 
-  - make full-release
-  - if [ -z "$TRAVIS_TAG" ]; then exit 0; fi
-  - make full-release TAG="$TRAVIS_TAG"
+#script: 
+#  - make full-release
 
 deploy:
   - provider: script
