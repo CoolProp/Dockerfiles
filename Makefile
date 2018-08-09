@@ -62,7 +62,7 @@ $(foreach tdir,$(DIRS),$(eval $(call make-goal,$(tdir))))
 all    : $(DIRS)
 
 .PHONY : debian-build
-debian : debian/32bit/Dockerfile debian/64bit/Dockerfile
+debian-build : debian/32bit/Dockerfile debian/64bit/Dockerfile
 	cd debian/32bit/ ; docker build -t coolprop/debian32 -f Dockerfile . ; cd ../..
 	cd debian/64bit/ ; docker build -t coolprop/debian   -f Dockerfile . ; cd ../..
 
