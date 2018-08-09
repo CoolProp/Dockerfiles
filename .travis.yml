@@ -8,20 +8,18 @@ sudo: required
 services:
   - docker
 
-stages:
-  - prepare
-  - build
-  - name: deploy
-    if: tag = true
-    #if: branch = master OR tag = true
+before_install:
+  - make make clean
 
-jobs:
-  include:
-    - stage: prepare
-      script: make debian-build
-    - stage: prepare
-      script: make clean && make manylinux-build
-    - stage: build
-      script: make full-release
-    - stage: deploy
-      script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
+install:
+  - make debian-build
+  - make manylinux-build
+
+script: 
+  - make full-release
+
+deploy:
+  provider: script
+  script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
+  on:
+    branch: master
