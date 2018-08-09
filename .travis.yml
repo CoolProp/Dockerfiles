@@ -15,8 +15,9 @@ install:
   - make debian-build
   #- make manylinux-build
 
-#script: 
+script: 
 #  - make full-release
+  - echo "All done."
 
 deploy:
   - provider: script
