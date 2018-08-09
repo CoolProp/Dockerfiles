@@ -45,10 +45,14 @@ $1-build : $1-build64 $1-build32
 .PHONY : $1-build32
 $1-build32 : $1/32bit/Dockerfile
 	cd $1/32bit ; docker build -t coolprop/$(1)32 -f Dockerfile . ; cd ..
-	
+
 .PHONY : $1-build64
 $1-build64 : $1/64bit/Dockerfile
 	cd $1/64bit ; docker build -t coolprop/$(1) -f Dockerfile . ; cd ..
+
+.PHONY : $1-clean
+$1-clean : 
+	rm -rf $1/64bit $1/32bit
 
 endef
 
@@ -71,6 +75,9 @@ push-debian :
 .PHONY : delete
 delete : 
 	docker rmi -f $(foreach tdir,$(DIRS),coolprop/$(tdir)) $(foreach tdir,$(DIRS),coolprop/$(tdir)32)
+
+.PHONY : clean
+clean : basesystem-clean slavebase-clean slavepython-clean manylinux-clean
 
 .PHONY : push-images
 push-images : 

@@ -17,6 +17,6 @@ stages:
 jobs:
   include:
     - stage: build
-      script: make full-release
+      script: make clean && make full-release
     - stage: deploy
       script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin && make full-push
