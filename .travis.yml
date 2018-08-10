@@ -18,7 +18,9 @@ stages:
 jobs:
   include:
     - stage: debian
-      script: make clean
+      script: 
+        - make clean
+        - echo "Test"
     # - stage: build::debian
         # script: 
           # - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
