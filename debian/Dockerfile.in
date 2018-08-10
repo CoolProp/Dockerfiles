@@ -1,0 +1,10 @@
+#include "../buildsteps/base.txt"
+
+COMMENT(#,Define a base image for 64bit debian)
+FROM debian:stable
+
+
+#include "../buildsteps/docker.maintainer.txt"
+
+
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 DEBIAN_FRONTEND=noninteractive

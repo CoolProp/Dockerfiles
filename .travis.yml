@@ -12,7 +12,6 @@ services:
 
 stages:
   - build::debian
-  - build::manylinux
   - build::basesystem
   - build::workerbase
   - build::workerpython
@@ -55,7 +54,7 @@ jobs:
         - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/workerpython32 coolprop/workerpython32:"$TRAVIS_TAG"; fi
         - if [ -n "$TRAVIS_TAG" -o \("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false"\) ]; then docker push coolprop/workerpython; fi
         - if [ -n "$TRAVIS_TAG" -o \("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false"\) ]; then docker push coolprop/workerpython32; fi
-    - stage: build::manylinux
+    - stage: build::workerpython
       script: 
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - make clean
