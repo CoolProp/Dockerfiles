@@ -24,8 +24,8 @@ jobs:
         - if [ -n "$TRAVIS_TAG" ]; then make debian-build TAG="$TRAVIS_TAG"; else make debian-build TAG="latest"; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/debian   coolprop/debian:"$TRAVIS_TAG"  ; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/debian32 coolprop/debian32:"$TRAVIS_TAG"; fi
-        - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/debian; fi
-        - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/debian32; fi
+        - if [ -n "$TRAVIS_TAG" -o \("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false"\) ]; then docker push coolprop/debian; fi
+        - if [ -n "$TRAVIS_TAG" -o \("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false"\) ]; then docker push coolprop/debian32; fi
     - stage: build::basesystem
       script: 
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
