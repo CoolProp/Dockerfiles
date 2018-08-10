@@ -25,8 +25,7 @@ jobs:
         - if [ -n "$TRAVIS_TAG" ]; then echo "Tagged build detected"; else echo "No tagged build detected"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ]; then echo "Master branch build detected"; else echo "No master branch build detected"; fi
         - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "No pull request build detected"; else echo "Pull request build detected"; fi
-        - if [ -n "$TRAVIS_TAG" -o { "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" } ]; then echo "Push functionality activated"; else echo "Push functionality disabled"; fi
-        - exit 1
+        - if [[ -n "$TRAVIS_TAG" -o ( "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ) ]]; then echo "Push functionality activated"; else echo "Push functionality disabled"; fi
     - stage: build::debian
       script: 
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
