@@ -1,7 +1,7 @@
 #include "../buildsteps/base.txt"
 
 COMMENT(#,Define a base image for all 64bit CoolProp docker images)
-FROM coolprop/debian:VERSION
+FROM coolprop/debian:TAG
 
 #include "../buildsteps/docker.maintainer.txt"
 

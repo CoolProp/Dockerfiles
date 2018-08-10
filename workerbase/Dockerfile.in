@@ -1,7 +1,7 @@
 #include "../buildsteps/base.txt"
 
 COMMENT(#,Define a base image for all CoolProp buildslave images)
-FROM coolprop/basesystem:VERSION
+FROM coolprop/basesystem:TAG
 
 
 #include "../buildsteps/docker.maintainer.txt"

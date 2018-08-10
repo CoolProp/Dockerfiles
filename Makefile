@@ -1,11 +1,11 @@
 
 # This is a Makefile to make Dockerfiles
 
-CPP:=cpp -w -P
-
 TAG:=latest
 
-DIRS := basesystem slavebase slavepython manylinux #slaveopen #slavefull
+CPP:=cpp -w -P -DTAG="$(TAG)"
+
+DIRS := basesystem workerbase workerpython
 
 define make-goal
 .PHONY : $1
@@ -57,6 +57,7 @@ $1-clean :
 endef
 
 $(foreach tdir,$(DIRS),$(eval $(call make-goal,$(tdir))))
+$(eval $(call make-goal,manylinux))
 
 .PHONY : all
 all    : $(DIRS)
@@ -71,7 +72,7 @@ delete :
 	docker rmi -f $(foreach tdir,$(DIRS),coolprop/$(tdir)) $(foreach tdir,$(DIRS),coolprop/$(tdir)32)
 
 .PHONY : clean
-clean : basesystem-clean slavebase-clean slavepython-clean manylinux-clean
+clean : basesystem-clean workerbase-clean workerpython-clean manylinux-clean
 
 .PHONY : build-images
 build-images : 

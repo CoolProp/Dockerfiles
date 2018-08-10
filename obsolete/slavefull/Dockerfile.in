@@ -1,7 +1,7 @@
 #include "../buildsteps/base.txt"
 
 COMMENT(#,Define an image to build all of the 64bit CoolProp wrappers on the Linux platform including proprietary software)
-FROM coolprop/slaveopen:VERSION
+FROM coolprop/slaveopen:TAG
 
 
 #include "../buildsteps/docker.maintainer.txt"

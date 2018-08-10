@@ -1,7 +1,7 @@
 #include "../buildsteps/base.txt"
 
 COMMENT(#,Define an image for CoolProp Python buildslaves)
-FROM coolprop/slavebase:VERSION
+FROM coolprop/slavebase:TAG
 
 
 #include "../buildsteps/docker.maintainer.txt"
