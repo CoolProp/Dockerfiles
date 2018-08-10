@@ -11,6 +11,7 @@ services:
   - docker
 
 stages:
+  - prepare::info
   - build::debian
   - build::basesystem
   - build::workerbase
@@ -18,6 +19,15 @@ stages:
 
 jobs:
   include:
+    - stage: prepare::info
+      script: 
+        - echo "         TRAVIS_TAG: $TRAVIS_TAG"
+        - echo "      TRAVIS_BRANCH: $TRAVIS_BRANCH"
+        - echo "TRAVIS_PULL_REQUEST: $TRAVIS_PULL_REQUEST"
+        - if [ -n "$TRAVIS_TAG" ]; then echo "Tagged build detected"; else echo "No tagged build detected"; fi
+        - if [ "$TRAVIS_BRANCH" = "master" ]; then echo "Master branch build detected"; else echo "No master branch build detected"; fi
+        - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "No pull request build detected"; else echo "Pull request build detected"; fi
+        - if [ -n "$TRAVIS_TAG" -o \("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false"\) ]; then echo "Push functionality activated"; fi
     - stage: build::debian
       script: 
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
