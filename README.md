@@ -1,17 +1,19 @@
 
+[![Build Status](https://travis-ci.org/CoolProp/Dockerfiles.svg?branch=master)](https://travis-ci.org/CoolProp/Dockerfiles)
+
 # CoolProp Docker images
 
 Welcome to **CoolProp/Dockerfiles** - a repository that provides Docker images preconfigured to build and use the CoolProp fluid property database. 
 
 ## Structure of the Repository
 
-Most of the images used to build CoolProp employ Debian's stable branch as their base image. Have a look at the `debian` subdirectory to see how these images are created from scratch in a chroot environment using the scripts provided by [Dashamir Hoxha](https://github.com/docker-32bit/debian). The binaries are uploaded to the [debian](https://hub.docker.com/r/coolprop/debian/) and the [debian32](https://hub.docker.com/r/coolprop/debian32/) repositories on Docker Hub.
+Most of the images used to build CoolProp employ Debian's stable branch as their base image. Have a look at the `debian` subdirectory to see how these images are created from the original realeses for 64bit and 32bit containers. The binaries are uploaded to the [coolprop/debian](https://hub.docker.com/r/coolprop/debian/) and the [coolprop/debian32](https://hub.docker.com/r/coolprop/debian32/) repositories on Docker Hub.
 
-Based on the bare Debian images, the [basesystem](https://hub.docker.com/r/coolprop/basesystem/) and [basesystem32](https://hub.docker.com/r/coolprop/basesystem32/) containers get built directly on Docker Hub as soon as new commits are pushed to this Git repository. These images contain the basic infrastructure required to compile CoolProp, which can be summarised to the GCC suite, version control systems and a slim Python installation. 
+Based on the bare Debian images, the [coolprop/basesystem](https://hub.docker.com/r/coolprop/basesystem/) and [coolprop/basesystem32](https://hub.docker.com/r/coolprop/basesystem32/) containers are built. These images contain the basic infrastructure required to compile CoolProp, which can be summarised to the GCC suite, version control systems and a slim Python installation. 
 
-Note that the largest images `coolprop/slaveopen` and `coolprop/slaveopen32` are not part of the automatic build system. They have to be generated and uploaded manually and you have to accept a certain delay, but you can always build your own images from the Dockerfiles provided here. As of November 2015, the images are tested with the wrappers for Octave, C#, Java, JavScript
+To build wheels for all supported Python versions, you should use [coolprop/manylinux](https://hub.docker.com/r/coolprop/manylinux), which is based on [quay.io/pypa/manylinux1_x86_64](https://quay.io/repository/pypa/manylinux1_x86_64).
 
-so far untested are: Scilab, Julia
+Note that all images are built and deployed automatically by TravisCI as soon as new commits are pushed to this Git repository, no further interaction should be required.
 
 ## Size Restrictions
 
@@ -39,48 +41,6 @@ folder contains files and instructions to build an image including the proprieta
 to be built *locally* since the contain software that requires specific licenses. You can also install the software *after* the image 
 has been launched for the first time using the `docker exec -it` commands.
 
-## Release Cycles
-
-The preferred release process is as follows:
-
- - remove all old images: `make delete` (or ``docker stop `docker ps -aq`; docker rm `docker ps -aq`; docker rmi `docker images -q`;``)
- - put a real version number (vX.X.X) in `buildsteps/base.txt` and in `Makefile`
- - `make full-release`
- - `make full-push`
- - commit the changes, tag the files in git and push to remote
- - enter the dummy version number (latest) in `buildsteps/base.txt` and in `Makefile`
- - `make all`
- - commit the changes to git master and push
- - Update the manylinux builders to pull the new image `wrappers/Python/manylinux/00_prepare_docker.sh`
-
-If you build one image at a time, you should respect the internal dependecies and make the 
-targets in the same order as  `make full-release` does. Remember to tag the new images 
-before you build the next one. 
-
-Another possibility is to use the automated build service. Also here you have to start with 
-the debian images and the rest should just work. Wait between each push to allow 
-the automatic builds to catch up with the new images. In a nutshell, the following commands 
-should work for a release: 
-
-```Bash
-TAG=v1.4.2
-make debian push-debian
-make all
-git commit manylinux/32bit/Dockerfile manylinux/64bit/Dockerfile -m "Updated manylinux for ${TAG}" 
-# Continue directly, the manylinux image has no internal dependencies
-git commit basesystem/32bit/Dockerfile basesystem/64bit/Dockerfile -m "Updated basesystem for ${TAG}" && git push
-# Wait for https://hub.docker.com/r/coolprop/basesystem/builds/ and https://hub.docker.com/r/coolprop/basesystem32/builds/ 
-git commit slavebase/32bit/Dockerfile slavebase/64bit/Dockerfile -m "Updated slavebase for ${TAG}" && git push
-# Wait for https://hub.docker.com/r/coolprop/slavebase/builds/ and https://hub.docker.com/r/coolprop/slavebase32/builds/ 
-git commit slavepython/32bit/Dockerfile slavepython/64bit/Dockerfile -m "Updated slavepython for ${TAG}" && git push
-# Wait for https://hub.docker.com/r/coolprop/slavepython/builds/ and https://hub.docker.com/r/coolprop/slavepython32/builds/ 
-```
-
-Enter the dummy version numbers in `buildsteps/base.txt` (latest) and in the `Makefile` (latest) and rerun `make all` and commit 
-the new files.
-
-
-
 ## DNS problems
 
 If you run into DNS issues like `Could not resolve 'httpredir.debian.org'`, [here](https://norasky.wordpress.com/2015/06/09/docker-build-could-not-resolve/), 
@@ -89,5 +49,4 @@ add your local nameserver to the configuration file and do not forget to restart
 
 ## Additional Information
 
-You can find more information in the developer section of the [CoolProp homepage](http://coolprop.sourceforge.net/develop/index.html). The Dockerfiles in this repository should be self-explanatory. Please note the files are generated by a makefile and should not be edited manually.
-
+You can find more information in the developer section of the [CoolProp homepage](http://coolprop.sourceforge.net/develop/index.html). The Dockerfiles in this repository should be self-explanatory. Please note the files are generated by a makefile and should not be edited manually, look at the template files called `Dockerfile.in` instead.
