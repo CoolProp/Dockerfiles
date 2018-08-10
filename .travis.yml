@@ -9,16 +9,16 @@ services:
   - docker
 
 stages:
-  - build::debian
-  - build::manylinux
-  - build::basesystem
-  - build::workerbase
-  - build::workerpython
+  - debian
+  #- build::manylinux
+  #- build::basesystem
+  #- build::workerbase
+  #- build::workerpython
 
 jobs:
   include:
-    - stage: build::debian
-        script: make clean
+    - stage: debian
+      script: make clean
     # - stage: build::debian
         # script: 
           # - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
