@@ -30,6 +30,7 @@ ENV PATH /home/buildbot/miniconda3/bin:/home/buildbot/miniconda2/bin:$PATH
 
 COMMENT(#,Add the miniconda environments for the Python builds)
 RUN \
+linux64 conda update conda && \
 linux64 conda install conda-build && \
 linux64 conda create -n CoolProp27 python=2.7 cython pip requests jinja2 pyyaml pycrypto numpy scipy matplotlib pandas wheel && \
 linux64 conda create -n CoolProp34 python=3.4 cython pip requests jinja2 pyyaml pycrypto numpy scipy matplotlib pandas wheel && \
