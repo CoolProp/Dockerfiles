@@ -5,6 +5,8 @@ notifications:
 
 sudo: required
 
+language: bash
+
 services:
   - docker
 
