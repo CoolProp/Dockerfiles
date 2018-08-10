@@ -18,7 +18,7 @@ stages:
 jobs:
   include:
     - stage: build::debian
-        - script: 
+        script: 
           - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           - make clean
           - if [ "$TRAVIS_BRANCH" = "master" ]; then make debian-build TAG="latest"; fi
@@ -28,7 +28,7 @@ jobs:
           - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/debian; fi
           - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/debian32; fi
     - stage: build::basesystem
-        - script: 
+        script: 
           - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           - make clean
           - if [ "$TRAVIS_BRANCH" = "master" ]; then make basesystem-build TAG="latest"; fi
@@ -38,7 +38,7 @@ jobs:
           - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/basesystem; fi
           - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/basesystem32; fi
     - stage: build::workerbase
-        - script: 
+        script: 
           - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           - make clean
           - if [ "$TRAVIS_BRANCH" = "master" ]; then make workerbase-build TAG="latest"; fi
@@ -48,7 +48,7 @@ jobs:
           - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/workerbase; fi
           - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/workerbase32; fi
     - stage: build::workerpython
-        - script: 
+        script: 
           - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           - make clean
           - if [ "$TRAVIS_BRANCH" = "master" ]; then make workerpython-build TAG="latest"; fi
@@ -58,7 +58,7 @@ jobs:
           - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/workerpython; fi
           - if [ -n "$TRAVIS_TAG" -o ("$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false") ]; then docker push coolprop/workerpython32; fi
     - stage: build::manylinux
-        - script: 
+        script: 
           - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           - make clean
           - if [ "$TRAVIS_BRANCH" = "master" ]; then make manylinux-build TAG="latest"; fi
