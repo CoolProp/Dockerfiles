@@ -14,7 +14,7 @@ stages:
   - build::debian
   - build::basesystem
   - build::workerbase
-  - build::workerpython
+  #- build::workerpython
 
 jobs:
   include:
