@@ -79,16 +79,16 @@ jobs:
         - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/workerbase32:"$TRAVIS_TAG"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/workerbase:latest; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/workerbase32:latest; fi
-    - stage: build::workerpython
-      script: 
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - make clean
-        - docker pull coolprop/workerpython:latest
-        - docker pull coolprop/workerpython32:latest
-        - if [ -n "$TRAVIS_TAG" ]; then make workerpython-build TAG="$TRAVIS_TAG"; else make workerpython-build TAG="latest"; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/workerpython   coolprop/workerpython:"$TRAVIS_TAG"  ; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/workerpython32 coolprop/workerpython32:"$TRAVIS_TAG"; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/workerpython:"$TRAVIS_TAG"; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/workerpython32:"$TRAVIS_TAG"; fi
-        - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/workerpython:latest; fi
-        - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/workerpython32:latest; fi
+    #- stage: build::workerpython
+    #  script: 
+    #    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    #    - make clean
+    #    - docker pull coolprop/workerpython:latest
+    #    - docker pull coolprop/workerpython32:latest
+    #    - if [ -n "$TRAVIS_TAG" ]; then make workerpython-build TAG="$TRAVIS_TAG"; else make workerpython-build TAG="latest"; fi
+    #    - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/workerpython   coolprop/workerpython:"$TRAVIS_TAG"  ; fi
+    #    - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/workerpython32 coolprop/workerpython32:"$TRAVIS_TAG"; fi
+    #    - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/workerpython:"$TRAVIS_TAG"; fi
+    #    - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/workerpython32:"$TRAVIS_TAG"; fi
+    #    - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/workerpython:latest; fi
+    #    - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/workerpython32:latest; fi
