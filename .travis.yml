@@ -32,52 +32,72 @@ jobs:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - make clean
         - docker pull coolprop/manylinux:latest
-        - docker pull coolprop/manylinux32:latest
-        - if [ -n "$TRAVIS_TAG" ]; then make manylinux-build TAG="$TRAVIS_TAG"; else make manylinux-build TAG="latest"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then make manylinux-build64 TAG="$TRAVIS_TAG"; else make manylinux-build64 TAG="latest"; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/manylinux   coolprop/manylinux:"$TRAVIS_TAG"  ; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/manylinux32 coolprop/manylinux32:"$TRAVIS_TAG"; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/manylinux:"$TRAVIS_TAG"; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/manylinux32:"$TRAVIS_TAG"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/manylinux:latest; fi
+    - stage: build::manylinux
+      script: 
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - make clean
+        - docker pull coolprop/manylinux32:latest
+        - if [ -n "$TRAVIS_TAG" ]; then make manylinux-build32 TAG="$TRAVIS_TAG"; else make manylinux-build32 TAG="latest"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/manylinux32 coolprop/manylinux32:"$TRAVIS_TAG"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/manylinux32:"$TRAVIS_TAG"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/manylinux32:latest; fi
     - stage: build::debian
       script: 
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - make clean
         - docker pull coolprop/debian:latest
-        - docker pull coolprop/debian32:latest
-        - if [ -n "$TRAVIS_TAG" ]; then make debian-build TAG="$TRAVIS_TAG"; else make debian-build TAG="latest"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then make debian-build64 TAG="$TRAVIS_TAG"; else make debian-build64 TAG="latest"; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/debian   coolprop/debian:"$TRAVIS_TAG"  ; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/debian32 coolprop/debian32:"$TRAVIS_TAG"; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/debian:"$TRAVIS_TAG"; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/debian32:"$TRAVIS_TAG"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/debian:latest; fi
+    - stage: build::debian
+      script: 
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - make clean
+        - docker pull coolprop/debian32:latest
+        - if [ -n "$TRAVIS_TAG" ]; then make debian-build32 TAG="$TRAVIS_TAG"; else make debian-build32 TAG="latest"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/debian32 coolprop/debian32:"$TRAVIS_TAG"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/debian32:"$TRAVIS_TAG"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/debian32:latest; fi
     - stage: build::basesystem
       script: 
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - make clean
         - docker pull coolprop/basesystem:latest
-        - docker pull coolprop/basesystem32:latest
-        - if [ -n "$TRAVIS_TAG" ]; then make basesystem-build TAG="$TRAVIS_TAG"; else make basesystem-build TAG="latest"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then make basesystem-build64 TAG="$TRAVIS_TAG"; else make basesystem-build64 TAG="latest"; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/basesystem   coolprop/basesystem:"$TRAVIS_TAG"  ; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/basesystem32 coolprop/basesystem32:"$TRAVIS_TAG"; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/basesystem:"$TRAVIS_TAG"; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/basesystem32:"$TRAVIS_TAG"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/basesystem:latest; fi
+    - stage: build::basesystem
+      script: 
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - make clean
+        - docker pull coolprop/basesystem32:latest
+        - if [ -n "$TRAVIS_TAG" ]; then make basesystem-build32 TAG="$TRAVIS_TAG"; else make basesystem-build32 TAG="latest"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/basesystem32 coolprop/basesystem32:"$TRAVIS_TAG"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/basesystem32:"$TRAVIS_TAG"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/basesystem32:latest; fi
     - stage: build::workerbase
       script: 
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - make clean
         - docker pull coolprop/workerbase:latest
-        - docker pull coolprop/workerbase32:latest
-        - if [ -n "$TRAVIS_TAG" ]; then make workerbase-build TAG="$TRAVIS_TAG"; else make workerbase-build TAG="latest"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then make workerbase-build64 TAG="$TRAVIS_TAG"; else make workerbase-build64 TAG="latest"; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/workerbase   coolprop/workerbase:"$TRAVIS_TAG"  ; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/workerbase32 coolprop/workerbase32:"$TRAVIS_TAG"; fi
         - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/workerbase:"$TRAVIS_TAG"; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/workerbase32:"$TRAVIS_TAG"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/workerbase:latest; fi
+    - stage: build::workerbase
+      script: 
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - make clean
+        - docker pull coolprop/workerbase32:latest
+        - if [ -n "$TRAVIS_TAG" ]; then make workerbase-build32 TAG="$TRAVIS_TAG"; else make workerbase-build32 TAG="latest"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/workerbase32 coolprop/workerbase32:"$TRAVIS_TAG"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker push coolprop/workerbase32:"$TRAVIS_TAG"; fi
         - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push coolprop/workerbase32:latest; fi
     #- stage: build::workerpython
     #  script: 
