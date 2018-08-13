@@ -15,11 +15,17 @@ COMMENT(#,ALTERNATE: RUN wget --no-check-certificate "https://www.cmake.org/file
 COMMENT(#,ALTERNATE: RUN curl -LO "https://www.cmake.org/files/v3.12/cmake-3.12.0.tar.gz" && tar -zxf cmake-3.12.0.tar.gz && cd cmake-3.12.0 && ./bootstrap && gmake && gmake install)
 
 
+COMMENT(#,RUN yum update -y && )
+COMMENT(#,  yum install -y epel-release && )
+COMMENT(#,  yum update -y && )
+COMMENT(#,  yum clean all)
+
 RUN yum update -y && \
+  rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm && \
   yum install -y epel-release && \
   yum update -y && \
   yum clean all
-  
+
 RUN yum groupinstall -y "Development Tools" && \
   yum install -y git subversion mercurial && \
   yum install -y wget curl bzip2 && \
