@@ -1,31 +1,32 @@
 #!/bin/bash
-CTRLAPP="/usr/local/bin/buildslave"
+CTRLAPP="buildbot-worker"
 function shutdown()
 {
-  $CTRLAPP stop ${SLAVEDIR}
+  $CTRLAPP stop ${WORKERDIR}
   exit 0
 }
 
 function startup()
 {
-  if [ ! -d "${SLAVEDIR}" ]; then
-    $CTRLAPP create-slave ${SLAVEDIR} ${MASTERHOST} ${SLAVENAME} ${SLAVEPASSWORD}
-    echo "${BOTADMIN} <${BOTEMAIL}>" > ${SLAVEDIR}/info/admin
-    echo "${BOTHOST}" > ${SLAVEDIR}/info/host
+  if [ ! -d "${WORKERDIR}" ]; then
+    $CTRLAPP create-worker ${WORKERDIR} ${BUILDMASTER}:${BUILDMASTER_PORT} ${WORKERNAME} ${WORKERPASS}
+    echo "${BOTADMIN} <${BOTEMAIL}>" > ${WORKERDIR}/info/admin
+    echo "${BOTHOST}" > ${WORKERDIR}/info/host
   fi
   # Remove the security relevant variables from the environment
   # Otherwise, they will be listed as clear text in the buildbot 
   # logs that are publicly available.
-  unset MASTERHOST
-  unset SLAVEPASSWORD
+  unset BUILDMASTER
+  unset BUILDMASTER_PORT
+  unset WORKERPASS
   unset BOTADMIN
   unset BOTEMAIL
   unset BOTHOST
-  $CTRLAPP start ${SLAVEDIR}
+  $CTRLAPP start ${WORKERDIR}
   echo "Remember to update the SSH configuration:"
-  echo "docker cp \${HOME}/.ssh ${SLAVENAME}:${HOME}/"
-  echo "docker cp \${HOME}/.pypirc ${SLAVENAME}:${HOME}/"
-  echo "docker exec --user root ${SLAVENAME} find ${HOME} ! -user buildbot -exec chown buildbot {} \\;"
+  echo "docker cp \${HOME}/.ssh ${WORKERNAME}:${HOME}/"
+  echo "docker cp \${HOME}/.pypirc ${WORKERNAME}:${HOME}/"
+  echo "docker exec --user root ${WORKERNAME} find ${HOME} ! -user buildbot -exec chown buildbot {} \\;"
 }
 
 trap shutdown TERM SIGTERM SIGKILL SIGINT

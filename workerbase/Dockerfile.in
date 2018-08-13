@@ -1,6 +1,6 @@
 #include "../buildsteps/base.txt"
 
-COMMENT(#,Define a base image for all CoolProp buildslave images)
+COMMENT(#,Define a base image for all CoolProp builder images)
 FROM coolprop/basesystem:TAG
 
 
@@ -10,9 +10,9 @@ FROM coolprop/basesystem:TAG
 #include "../buildsteps/docker.user.root.txt"
 
 
-RUN linux64 pip install buildbot-slave
+RUN linux64 pip install buildbot-worker
 
-COMMENT(#,Install the buildbot slave software and add the appropriate user)
+COMMENT(#,Install the buildbot worker software and add the appropriate user)
 RUN groupadd -r buildbot && useradd -r -d /home/buildbot -m -s /bin/bash -g buildbot buildbot
 
 #include "../buildsteps/docker.user.bot.txt"
