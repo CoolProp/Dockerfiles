@@ -10,6 +10,7 @@ services:
 
 stages:
   - prepare::info
+  - build::manylinux
   - build::debian
   - build::basesystem
   - build::workerbase
@@ -26,6 +27,15 @@ jobs:
         - if [ "$TRAVIS_BRANCH" = "master" ]; then echo "Master branch build detected"; else echo "No master branch build detected"; fi
         - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo "No pull request build detected"; else echo "Pull request build detected"; fi
         - if [ -n "$TRAVIS_TAG" ] || ( [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]); then echo "Push functionality activated"; else echo "Push functionality disabled"; fi
+    - stage: build::manylinux
+      script: 
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - make clean
+        - if [ -n "$TRAVIS_TAG" ]; then make manylinux-build TAG="$TRAVIS_TAG"; else make manylinux-build TAG="latest"; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/manylinux   coolprop/manylinux:"$TRAVIS_TAG"  ; fi
+        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/manylinux32 coolprop/manylinux32:"$TRAVIS_TAG"; fi
+        - if [ -n "$TRAVIS_TAG" ] || ( [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]); then docker push coolprop/manylinux; fi
+        - if [ -n "$TRAVIS_TAG" ] || ( [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]); then docker push coolprop/manylinux32; fi
     - stage: build::debian
       script: 
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -62,12 +72,3 @@ jobs:
         - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/workerpython32 coolprop/workerpython32:"$TRAVIS_TAG"; fi
         - if [ -n "$TRAVIS_TAG" ] || ( [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]); then docker push coolprop/workerpython; fi
         - if [ -n "$TRAVIS_TAG" ] || ( [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]); then docker push coolprop/workerpython32; fi
-    - stage: build::workerpython
-      script: 
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - make clean
-        - if [ -n "$TRAVIS_TAG" ]; then make manylinux-build TAG="$TRAVIS_TAG"; else make manylinux-build TAG="latest"; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/manylinux   coolprop/manylinux:"$TRAVIS_TAG"  ; fi
-        - if [ -n "$TRAVIS_TAG" ]; then docker tag coolprop/manylinux32 coolprop/manylinux32:"$TRAVIS_TAG"; fi
-        - if [ -n "$TRAVIS_TAG" ] || ( [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]); then docker push coolprop/manylinux; fi
-        - if [ -n "$TRAVIS_TAG" ] || ( [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]); then docker push coolprop/manylinux32; fi
