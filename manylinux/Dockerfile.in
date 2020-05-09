@@ -7,16 +7,16 @@ FROM quay.io/pypa/manylinux1_x86_64
 #include "../buildsteps/docker.maintainer.txt"
 
 
-COMMENT(#,Install Cmake (either from source (reliable) or from yum (64-bit only and it does not symlink in a cmake executable)))
+COMMENT(#,Install CMake (either from source (reliable) or from yum (64-bit only and it does not symlink in a cmake executable)))
 COMMENT(#,ALTERNATE: RUN yum install -y cmake28 && ln -s `which cmake28` /usr/local/bin/cmake)
 COMMENT(#,ALTERNATE: RUN wget --no-check-certificate "http://www.cmake.org/files/v2.8/cmake-2.8.12.2.tar.gz" && tar -zxvf cmake-2.8.12.2.tar.gz && cd cmake-2.8.12.2 && ./bootstrap && make && make install)
 COMMENT(#,ALTERNATE: RUN yum remove -yt cmake && yum install -y cmake3 && cd /usr/bin && ln -s cmake3 cmake && ln -s ccmake3 ccmake && ln -s cpack3 cpack && ln -s ctest3 ctest)
 COMMENT(#,ALTERNATE: RUN wget --no-check-certificate "https://www.cmake.org/files/v3.10/cmake-3.10.1.tar.gz" && tar -zxvf cmake-3.10.1.tar.gz && cd cmake-3.10.1 && ./bootstrap && gmake && gmake install)
 COMMENT(#,ALTERNATE: RUN curl -LO "https://www.cmake.org/files/v3.12/cmake-3.12.0.tar.gz" && tar -zxf cmake-3.12.0.tar.gz && cd cmake-3.12.0 && ./bootstrap && gmake && gmake install)
 
-RUN curl -LO "https://www.cmake.org/files/v3.17/cmake-3.17.2.tar.gz" && \
-  tar -zxf cmake-3.17.2.tar.gz && \
-  cd cmake-3.17.2 && ./bootstrap && \
+RUN curl -LO "https://www.cmake.org/files/v3.13/cmake-3.13.4.tar.gz" && \
+  tar -zxf cmake-3.13.4.tar.gz && \
+  cd cmake-3.13.4 && ./bootstrap && \
   gmake && \
   gmake install && \
   gmake clean
@@ -49,7 +49,7 @@ RUN \
 /opt/python/cp27-cp27m/bin/virtualenv /py27mu --python=/opt/python/cp27-cp27mu/bin/python && \
 /opt/python/cp27-cp27m/bin/virtualenv /py36   --python=/opt/python/cp36-cp36m/bin/python && \
 /opt/python/cp27-cp27m/bin/virtualenv /py37   --python=/opt/python/cp37-cp37m/bin/python && \
-/opt/python/cp28-cp28m/bin/virtualenv /py38   --python=/opt/python/cp38-cp38m/bin/python
+/opt/python/cp27-cp27m/bin/virtualenv /py38   --python=/opt/python/cp38-cp38/bin/python
 
 COMMENT(#,Install pip packages needed)
 RUN \
