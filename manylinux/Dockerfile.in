@@ -49,7 +49,7 @@ RUN \
 /opt/python/cp27-cp27m/bin/virtualenv /py27mu --python=/opt/python/cp27-cp27mu/bin/python && \
 /opt/python/cp27-cp27m/bin/virtualenv /py36   --python=/opt/python/cp36-cp36m/bin/python && \
 /opt/python/cp27-cp27m/bin/virtualenv /py37   --python=/opt/python/cp37-cp37m/bin/python && \
-/opt/python/cp28-cp28m/bin/virtualenv /py38   --python=/opt/python/cp38-cp38m/bin/python
+/opt/python/cp27-cp27m/bin/virtualenv /py38   --python=/opt/python/cp38-cp38m/bin/python
 
 COMMENT(#,Install pip packages needed)
 RUN \
