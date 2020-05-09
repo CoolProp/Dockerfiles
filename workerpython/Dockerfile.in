@@ -37,4 +37,5 @@ linux64 conda create -n CoolProp34 python=3.4 cython pip requests jinja2 pyyaml 
 linux64 conda create -n CoolProp35 python=3.5 cython pip requests jinja2 pyyaml pycrypto numpy scipy matplotlib pandas wheel && \
 linux64 conda create -n CoolProp36 python=3.6 cython pip requests jinja2 pyyaml pycrypto numpy scipy matplotlib pandas wheel && \
 linux64 conda create -n CoolProp37 python=3.7 cython pip requests jinja2 pyyaml pycrypto numpy scipy matplotlib pandas wheel && \
+linux64 conda create -n CoolProp38 python=3.8 cython pip requests jinja2 pyyaml numpy scipy matplotlib pandas wheel && \
 linux64 conda clean -yilts
